@@ -20,6 +20,10 @@ def login():
 def signup():
     return render_template("signup.html", error = error)
 
+@app.route("/facturas")
+def facturas():
+    return render_template("facturas.html", error = error)
+
 
 
 @app.route("/signupError")
