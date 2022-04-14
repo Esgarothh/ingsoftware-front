@@ -5,6 +5,7 @@ from flask import Flask, flash, redirect, render_template, request, session, abo
 import json
 
 
+
 up.uses_netloc.append("postgres")
 url = up.urlparse("postgres://rfrjpzhs:i-TLh1ySmYazV81s7l4Bguw9UBoiGKlp@kesavan.db.elephantsql.com/rfrjpzhs")
 conn = psycopg2.connect(database=url.path[1:],user=url.username, password=url.password, host=url.hostname, port=url.port )
@@ -46,7 +47,7 @@ def welcome():
        
         cursor.execute("""SELECT nombre_empresa, mail FROM usuarios WHERE rut_empresa = 123456789""")
         user_pass = cursor.fetchall()
-        return render_template("welcome.html", name=user_pass[0][0], email = user_pass[0][1], qrCode=123123)
+        return render_template("welcome.html", name=user_pass[0][0], email = user_pass[0][1], qrCode=123123,texto="FUNCIONA")
         #return render_template("welcome.html", name='b', email = 'a', qrCode=123123)
         #return render_template("camara.html", name=person["name"], email = person["email"])
 
