@@ -95,95 +95,31 @@ function loadedFile(xhr) {
 
 function showPDF() {
 	//generador INSIDE
-	generarCabecera(doc);
-	generarParrafos(doc, texto);
+
+	generateHeader(doc);
+	generateCustomerInformation(doc, invoice);
+	generateInvoiceTable(doc, invoice);
+	generateFooter(doc);
 
 	doc.end();
 }
 // ---------------------------------------------------------------------------------- FUNCIONES
 
-function generarCabecera(doc) {
-	const variableResolucion = "10.120";
-	const variableMotivo = "N° FACTURA 123456";
-	const variableFecha = "Santiago, 27 de Octubre de 2021";
-	doc
-
-		.fillColor("#000000")
-		.fontSize(10)
-		.font("Helvetica-Bold") //fuente y negrita
-		.text("RESOLUCION N°", 280, 57)
-		.text(variableResolucion, 365, 57)
-		.fontSize(10)
-		.text(variableMotivo, 330, 100, { underline: "true" })
-		.font("Helvetica")
-		.text(variableFecha, 260, 150)
-		.moveDown();
-}
-
-function generarParrafos(doc, texto) {
-	let variableTexto = texto;
-	const fecha = "{{VARIABLE FECHA}}"; //variable externa fecha
-	const direccionRegional = "Dirección Regional de Maule ";
-	var lote = "{{VARIABLE LOTE}}"; //variable externa LOTE
-	//lote = document.getElementById("validationDefault01").value;
-	var documento = document.getElementById("usarplantillacheck");
-	console.log(documento);
-	if (documento.value == 0) {
-		lote = document.getElementById("casillaInputLote").value;
-		console.log(document);
-		console.log(document.getElementById("casillaInputLote"));
-	} else {
-		lote = "100";
-	}
-	let variableTexto2 =
-		"Que, en el sentido anterior, mediante requerimiento \
-  de " +
-		fecha +
-		", la Dirección Regional \
-  de Maule, a través de correo electrónico, solicita dar \
-  de baja mobiliario y bienes informáticos que han \
-  cumplido con su vida útil o se encuentran \
-  deteriorados y en desuso, no resultando eficaces para \
-  cumplir con las funciones que le son propias, en las \
-  condiciones en que actualmente se encuentran, \
-  dichos bienes se encuentran detallados en el lote de \
-  baja de bienes N° " +
-		lote +
-		" documentos que se adjuntan a \
-  esta resolución. Dicho lote fue autorizado por el \
-  Director Regional en la plataforma del Sistema de \
-  Activo Fijo bajo la causal Bienes No Sujetos a Venta.";
-	variableTexto += variableTexto2;
-	const variableMotivo = "FACTURA N° 123456789";
-	const variableFecha = "Santiago, 27 de Octubre de 2021";
-	doc
-		.fillColor("#000000")
-		.fontSize(10)
-		.font("Helvetica-Bold") //fuente y negrita
-		.text("V I S T O Y C O N S I D E R A N D O:", 260, 200)
-		.font("Helvetica")
-		.text("1.", 140, 230)
-		.text(variableTexto, 60, 230, { width: 240, align: "justify" })
-		.text("2.", 240, 305)
-		.fontSize(10)
-		.moveDown();
-}
-
 function generateHeader(doc) {
 	doc
-		.image(files.img3.data, 50, 45, { width: 50 })
+
 		.fillColor("#444444")
 		.fontSize(20)
-		.text("Detalle Traslado de bien.", 110, 57)
+		.text("Pizarras Grecia", 110, 57)
 		.fontSize(10)
-		.text("Sercotec  ", 200, 50, { align: "right" })
-		.text("123 Calle", 200, 65, { align: "right" })
-		.text("Santiago,Chile", 200, 80, { align: "right" })
+		.text("Manufacturas Grecia.", 200, 50, { align: "right" })
+		.text("Sierra Bella 2667", 200, 65, { align: "right" })
+		.text("Santiago de Chile", 200, 80, { align: "right" })
 		.moveDown();
 }
 
 function generateCustomerInformation(doc, invoice) {
-	doc.fillColor("#444444").fontSize(20).text("Detalle", 50, 160);
+	doc.fillColor("#444444").fontSize(20).text("Factura", 50, 160);
 
 	generateHr(doc, 185);
 
@@ -191,13 +127,13 @@ function generateCustomerInformation(doc, invoice) {
 
 	doc
 		.fontSize(10)
-		.text("ID LOTE:", 50, customerInformationTop)
+		.text("N° Factura:", 50, customerInformationTop)
 		.font("Helvetica-Bold")
 		.text(invoice.invoice_nr, 150, customerInformationTop)
 		.font("Helvetica")
-		.text("Fecha emisión:", 50, customerInformationTop + 15)
+		.text("Fecha:", 50, customerInformationTop + 15)
 		.text(formatDate(new Date()), 150, customerInformationTop + 15)
-		.text("Código:", 50, customerInformationTop + 30)
+		.text("Monto Total:", 50, customerInformationTop + 30)
 		.text(
 			formatCurrency(invoice.subtotal - invoice.paid),
 			150,
@@ -230,11 +166,11 @@ function generateInvoiceTable(doc, invoice) {
 	generateTableRow(
 		doc,
 		invoiceTableTop,
-		"itemID",
+		"Producto",
 		"Descripcion",
-		"Unit Cost",
+		"Costo Unitario",
 		"Cantidad",
-		"Line Total"
+		"Total"
 	);
 	generateHr(doc, invoiceTableTop + 20);
 	doc.font("Helvetica");
@@ -261,7 +197,7 @@ function generateInvoiceTable(doc, invoice) {
 		subtotalPosition,
 		"",
 		"",
-		"Subtotal",
+		"Neto",
 		"",
 		formatCurrency(invoice.subtotal)
 	);
@@ -272,7 +208,7 @@ function generateInvoiceTable(doc, invoice) {
 		paidToDatePosition,
 		"",
 		"",
-		"Paid To Date",
+		"IVA",
 		"",
 		formatCurrency(invoice.paid)
 	);
@@ -284,7 +220,7 @@ function generateInvoiceTable(doc, invoice) {
 		duePosition,
 		"",
 		"",
-		"Balance Due",
+		"Total",
 		"",
 		formatCurrency(invoice.subtotal - invoice.paid)
 	);
