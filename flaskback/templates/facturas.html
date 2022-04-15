@@ -1,78 +1,84 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Factura</title>
-        <link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'welcome.css')}}">
-        <link rel="stylesheet" type="text/css" href="../static/facturas.css">
 
-    </head>
+<head>
+    <title>Factura</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'welcome.css')}}">
+    <link rel="stylesheet" type="text/css" href="../static/facturas.css">
 
-    <body>
-        <header>
-            <h2><a href="/flaskback/templates/welcome.html" class="logo" >Menu</a></h2>
-            <div class="navigation">
-                <a href="/flaskback/templates/facturas.html">Crear factura</a>
-                <a href="#">Crear cotizacion</a>
-                <a href="#">Añadir stock</a>
+</head>
+
+<body>
+    <header>
+        <h2><a href="welcome" class="logo">Menu</a></h2>
+        <div class="navigation">
+            <a href="/facturas">Crear factura</a>
+            <a href="#">Crear cotizacion</a>
+            <a href="#">Añadir stock</a>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div class="title">
+                <h1>Crear Factura</h1>
             </div>
-        </header>
-        <main>
-            <div class="container">
-                <div class="title">
-                    <h1>Crear Factura</h1>
+            <form action="#">
+                <h2>Datos del Cliente</h2>
+                <div class="invoice-details">
+                    <div class="input-box">
+                        <span class="details">Nombre del Cliente</span>
+                        <input type="text" name="customer_name" id="customer_name" placeholder="Julio Perez" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Dirección</span>
+                        <input type="text" name="customer_address" id="customer_address"
+                            placeholder="Armando villanueva 5629" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Teléfono</span>
+                        <input type="number" name="customer_phone" id="customer_phone" placeholder="56 9 1234 5678"
+                            required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Correo</span>
+                        <input type="email" name="customer_email" id="customer_email"
+                            placeholder="Julio.Perez@gmail.com" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Codigo Postal</span>
+                        <input type="number" name="postal_code" id="postal_code" placeholder="53075" required>
+                    </div>
                 </div>
-                <form action="#">
-                    <h2>Datos del Cliente</h2>
-                    <div class="invoice-details">
-                        <div class="input-box">
-                            <span class="details">Nombre del Cliente</span>
-                            <input type="text" name="customer_name" id="customer_name" placeholder="Julio Perez" required>
-                        </div>
-                        <div class="input-box">
-                            <span class="details">Dirección</span>
-                            <input type="text" name="customer_address" id="customer_address" placeholder="Armando villanueva 5629" required>
-                        </div>
-                        <div class="input-box">
-                            <span class="details">Teléfono</span>
-                            <input type="number" name="customer_phone" id="customer_phone" placeholder="56 9 1234 5678" required>
-                        </div>
-                        <div class="input-box">
-                            <span class="details">Correo</span>
-                            <input type="email" name="customer_email" id="customer_email" placeholder="Julio.Perez@gmail.com" required>
-                        </div>
-                        <div class="input-box">
-                            <span class="details">Codigo Postal</span>
-                            <input type="number" name="postal_code" id="postal_code" placeholder="53075" required>
-                        </div>
+
+                <h2>Datos del Producto</h2>
+                <div class="invoice-details">
+                    <div class="input-box">
+                        <span class="details">Nombre del producto</span>
+                        <input type="text" name="product_name" id="product_name" placeholder="Lavadora" required>
                     </div>
-                    
-                    <h2>Datos del Producto</h2>
-                    <div class="invoice-details">
-                        <div class="input-box">
-                            <span class="details">Nombre del producto</span>
-                            <input type="text" name="product_name" id="product_name" placeholder="Lavadora" required>
-                        </div>
-                        <div class="input-box">
-                            <span class="details">Precio</span>
-                            <input type="number" name="product_price" id="product_price" placeholder="$100" required>
-                        </div>
-                        <div class="input-box">
-                            <span class="details">Cantidad</span>
-                            <input type="number" name="product_quantity" id="product_quantity" placeholder="1" required>
-                        </div>
-                        <div class="input-box">
-                            <span class="details">Descripción</span>
-                            <input type="text" name="product_description" id="product_description" placeholder="Lavadora de blanco" required>
-                        </div>
-                        <div class="input-box">
-                            <span class="details">Sub_total</span>
-                            <input type="number" name="sub_total" id="sub_total" placeholder="$100" required>
-                        </div>
+                    <div class="input-box">
+                        <span class="details">Precio</span>
+                        <input type="number" name="product_price" id="product_price" placeholder="$100" required>
                     </div>
-                    <input class="btn btn-dark" type="submit" value="Crear Factura">
-                    
-                </form>		
-            </div>
-        </main>
-    </body>
+                    <div class="input-box">
+                        <span class="details">Cantidad</span>
+                        <input type="number" name="product_quantity" id="product_quantity" placeholder="1" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Descripción</span>
+                        <input type="text" name="product_description" id="product_description"
+                            placeholder="Lavadora de blanco" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Sub_total</span>
+                        <input type="number" name="sub_total" id="sub_total" placeholder="$100" required>
+                    </div>
+                </div>
+                <input class="btn btn-dark" type="submit" value="Crear Factura">
+
+            </form>
+        </div>
+    </main>
+</body>
+
 </html>

@@ -27,11 +27,11 @@ def login():
 #Sign up/ Register
 @app.route("/signup")
 def signup():
-    return render_template("signup.html", error = error)
+    return render_template("signup.html")
 
 @app.route("/facturas")
 def facturas():
-    return render_template("facturas.html", error = error)
+    return render_template("facturas.html")
 
 
 
@@ -65,7 +65,6 @@ def result():
             return redirect(url_for('welcome'))
         else:
             return redirect(url_for('login'))
-
 
 
 
