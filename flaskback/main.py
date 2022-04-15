@@ -1,8 +1,16 @@
-
-
+import os
+import urllib.parse as up
+import psycopg2
 from flask import Flask, flash, redirect, render_template, request, session, abort, url_for
 import json
 
+
+
+up.uses_netloc.append("postgres")
+url = up.urlparse("postgres://rfrjpzhs:i-TLh1ySmYazV81s7l4Bguw9UBoiGKlp@kesavan.db.elephantsql.com/rfrjpzhs")
+conn = psycopg2.connect(database=url.path[1:],user=url.username, password=url.password, host=url.hostname, port=url.port )
+conn.autocommit = True
+cursor = conn.cursor()
 
 app = Flask(__name__)       #Initialze flask constructor
 app.secret_key = "super secret key2"
@@ -14,6 +22,7 @@ person = {"is_logged_in": False, "name": "", "email": "", "uid": "","estadoCompr
 @app.route("/")
 def login():
     return render_template("login.html")
+
 
 #Sign up/ Register
 @app.route("/signup")
@@ -40,7 +49,10 @@ def welcome():
     if True:
 
        
-        return render_template("welcome.html", name="s", email = "ha", qrCode=123123)
+        cursor.execute("""SELECT nombre_empresa, mail FROM usuarios WHERE rut_empresa = 123456789""")
+        user_pass = cursor.fetchall()
+        return render_template("welcome.html", name=user_pass[0][0], email = user_pass[0][1], qrCode=123123,texto="FUNCIONA")
+        #return render_template("welcome.html", name='b', email = 'a', qrCode=123123)
         #return render_template("camara.html", name=person["name"], email = person["email"])
 
 
@@ -56,6 +68,7 @@ def result():
 
 
 
+
 #If someone clicks on register, they are redirected to /register
 @app.route("/register", methods = ["POST", "GET"])
 def register():
@@ -68,3 +81,6 @@ if __name__ == "__main__":
     
     app.run(host='0.0.0.0')
     #app.run(ssl_context=('cert.pem', 'key.pem'))
+
+conn.commit()
+conn.close()
