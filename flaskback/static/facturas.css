@@ -62,6 +62,14 @@ header .navigation a:hover{
 	background-color: #333332;
 }
 
+span{
+	color: #1CAC78;
+}
+
+h1{
+	color: #1CAC78;
+}
+
 .container{
 	max-width: 650px;
 	margin: 0 auto;
@@ -114,4 +122,35 @@ form .invoice-details .input-box{
 	border: 1px solid #ccc;
 	padding-left: 10px;
 	font-size: 16px;
+}
+
+.content-table{
+	border-collapse: collapse;
+	margin: 25px 0;
+	font-size: 14px;
+	min-width: 100%;
+}
+
+.content-table thead tr{
+	background-color: #1CAC78;
+	color: #fff;
+	text-align: left;
+	font-weight: bold;
+}
+
+.content-table th,
+.content-table td{
+	padding: 12px;
+}
+
+.content-table tbody tr{
+	border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even){
+	background-color: #f3f3f3;
+}
+
+.content-table tbody tr:last-of-type{
+	border-bottom: 2px solid ##7FFF00;
 }
