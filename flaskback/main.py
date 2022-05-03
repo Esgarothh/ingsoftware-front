@@ -69,6 +69,13 @@ def result():
 
 
 #If someone clicks on register, they are redirected to /register
+@app.route("/verfacturas", methods = ["POST", "GET"])
+def verfacturas():
+    return render_template("verfacturas.html")
+
+
+
+#If someone clicks on register, they are redirected to /register
 @app.route("/register", methods = ["POST", "GET"])
 def register():
     return redirect(url_for('welcome'))
