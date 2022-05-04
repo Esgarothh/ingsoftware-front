@@ -1,9 +1,11 @@
 import os
 import urllib.parse as up
 import psycopg2
+from funciones import *
 from flask import (
     Flask,
     flash,
+    g,
     redirect,
     render_template,
     request,
@@ -58,11 +60,15 @@ def signupError():
     return render_template("signup.html", error=error)
 
 
+def getFactura(id):
+    cursor.execute("SELECT * FROM facturas WHERE id = %s", (id,))
+
+
 # Welcome page
 @app.route("/welcome")
 def welcome():
     if True:
-
+        hola()
         piece = " <table> <thead><tr><th>Name</th><th>Description</th></tr></thead> <tbody> <tr><td>Name1</td><td>Description1</td></tr> <tr><td>Name2</td><td>Description2</td></tr> <tr><td>Name3</td><td>Description3</td></tr> </tbody> </table>"
 
         my_list = [
