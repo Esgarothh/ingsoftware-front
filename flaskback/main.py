@@ -72,8 +72,27 @@ def welcome():
         piece = " <table> <thead><tr><th>Name</th><th>Description</th></tr></thead> <tbody> <tr><td>Name1</td><td>Description1</td></tr> <tr><td>Name2</td><td>Description2</td></tr> <tr><td>Name3</td><td>Description3</td></tr> </tbody> </table>"
 
         my_list = [
-            {"description": "xxx", "location": "yyy", "status": "zzz"},
-            {"description": "www", "location": "eee", "status": "rrr"},
+            {
+                "folio": "2",
+                "cliente": "yyy",
+                "fechaemision": "zzz",
+                "monto": "4990",
+                "descripcion": "descripcion",
+            },
+            {
+                "folio": "3",
+                "cliente": "591293",
+                "fechaemision": "zzz",
+                "monto": "5990",
+                "descripcion": "descripcion",
+            },
+            {
+                "folio": "4",
+                "cliente": "aguasandinas",
+                "fechaemision": "zzz",
+                "monto": "4990",
+                "descripcion": "descripcion",
+            },
         ]
         # cursor.execute("""SELECT nombre_empresa, mail FROM usuarios WHERE rut_empresa = 123456789""")
         # user_pass = cursor.fetchall()
