@@ -53,6 +53,11 @@ def facturas():
     return render_template("facturas.html")
 
 
+@app.route("/home")
+def home():
+    return render_template("home.html")
+
+
 @app.route("/signupError")
 def signupError():
     error = request.args.get("error")
@@ -68,7 +73,6 @@ def getFactura(id):
 @app.route("/welcome")
 def welcome():
     if True:
-        hola()
         piece = " <table> <thead><tr><th>Name</th><th>Description</th></tr></thead> <tbody> <tr><td>Name1</td><td>Description1</td></tr> <tr><td>Name2</td><td>Description2</td></tr> <tr><td>Name3</td><td>Description3</td></tr> </tbody> </table>"
 
         my_list = [
