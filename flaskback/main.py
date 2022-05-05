@@ -52,6 +52,18 @@ def signup():
 def facturas():
     return render_template("facturas.html")
 
+@app.route("/cotizaciones")
+def cotizaciones():
+    return render_template("cotizaciones.html")
+
+@app.route("/productos")
+def productos():
+    return render_template("productos.html")
+
+@app.route("/home")
+def home():
+    return render_template("home.html")
+
 
 @app.route("/signupError")
 def signupError():
@@ -65,15 +77,33 @@ def getFactura(id):
 
 
 # Welcome page
-@app.route("/welcome")
+@app.route("/welcome", methods=["GET", "POST"])
 def welcome():
     if True:
-        hola()
         piece = " <table> <thead><tr><th>Name</th><th>Description</th></tr></thead> <tbody> <tr><td>Name1</td><td>Description1</td></tr> <tr><td>Name2</td><td>Description2</td></tr> <tr><td>Name3</td><td>Description3</td></tr> </tbody> </table>"
 
         my_list = [
-            {"description": "xxx", "location": "yyy", "status": "zzz"},
-            {"description": "www", "location": "eee", "status": "rrr"},
+            {
+                "folio": "2",
+                "cliente": "yyy",
+                "fechaemision": "zzz",
+                "monto": "4990",
+                "descripcion": "descripcion",
+            },
+            {
+                "folio": "3",
+                "cliente": "591293",
+                "fechaemision": "zzz",
+                "monto": "5990",
+                "descripcion": "descripcion",
+            },
+            {
+                "folio": "4",
+                "cliente": "aguasandinas",
+                "fechaemision": "zzz",
+                "monto": "4990",
+                "descripcion": "descripcion",
+            },
         ]
         # cursor.execute("""SELECT nombre_empresa, mail FROM usuarios WHERE rut_empresa = 123456789""")
         # user_pass = cursor.fetchall()
@@ -96,7 +126,7 @@ def result():
     if request.method == "POST":  # Only if data has been posted
 
         if True:
-            return redirect(url_for("welcome"))
+            return redirect("/welcome")
         else:
             return redirect(url_for("login"))
 
@@ -105,6 +135,15 @@ def result():
 @app.route("/verfacturas", methods=["POST", "GET"])
 def verfacturas():
     return render_template("verfacturas.html")
+
+@app.route("/vercotizaciones", methods=["POST", "GET"])
+def vercotizaciones():
+    return render_template("vercotizaciones.html")
+
+
+@app.route("/verproductos", methods=["POST", "GET"])
+def verproductos():
+    return render_template("verproductos.html")
 
 
 # If someone clicks on register, they are redirected to /register

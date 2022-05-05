@@ -26,14 +26,28 @@
 				<a href="#" class="info-btn">Más Información</a>
 			</div>
 			<table class="content-table">
-				{% for item in my_list %}
-				<tr>
-					<td>{{ item.description }}</td>
-					<td>{{ item.location }}</td>
-					<td>{{ item.status }}</td>
-				</tr>
-				{% endfor %}
+				<thead>
+					<tr>
+						<th>Folio</th>
+						<th>Cliente</th>
+						<th>Fecha Emision</th>
+						<th>Monto</th>
+						<th>Descripción</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in my_list %}
+					<tr>
+						<td>{{ item.folio }}</td>
+						<td>{{ item.cliente }}</td>
+						<td>{{ item.fechaemision }}</td>
+						<td>{{ item.monto }}</td>
+						<td>{{ item.descripcion}}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
 			</table>
+
 
 		</div>
 

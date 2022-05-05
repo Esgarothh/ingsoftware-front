@@ -1,10 +1,29 @@
-<header>
+<!doctype html>
+<title>{% block title %}{% endblock %} - Flaskr</title>x
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'welcome.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'facturas.css')}}">
+<!-- CSS only -->
+<header class="navbar navbar-light bg-light">
+
+
     <h2><a href="/welcome" class="logo">Menu</a></h2>
     <div class="navigation">
         <a href="/facturas">Crear factura</a>
-        <a href="#">Crear cotizacion</a>
+        <a href="/cotizaciones">Crear cotizacion</a>
+        <a href="/productos">Añadir producto</a>
         <a href="/verfacturas">Ver facturas</a>
+        <a href="/vercotizaciones">Ver Cotizaciones</a>
+        <a href="/verproductos">Ver productos</a>
     </div>
+
 </header>
-{% block page_content %}
-{% endblock %}
+
+<body>
+    {% block first %}{% endblock %}
+    {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% block page_content %}{% endblock %}
+
+    </div>
+</body>
