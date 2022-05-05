@@ -36,13 +36,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for item in my_list %}
+					{% for i in range(0,maximo,1) %}
 					<tr>
-						<td>{{ item.folio }}</td>
-						<td>{{ item.cliente }}</td>
-						<td>{{ item.fechaemision }}</td>
-						<td>{{ item.monto }}</td>
-						<td>{{ item.descripcion}}</td>
+						<td>{{ my_list[i][0] }}</td>
+						<td>{{ my_list[i][1] }}</td>
+						<td>{{ my_list[i][2] }}</td>
+						<td>{{ my_list[i][3] }}</td>
+						<td>{{ my_list[i][4] }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>
