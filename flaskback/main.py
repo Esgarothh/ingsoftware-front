@@ -52,6 +52,13 @@ def signup():
 def facturas():
     return render_template("facturas.html")
 
+@app.route("/cotizaciones")
+def cotizaciones():
+    return render_template("cotizaciones.html")
+
+@app.route("/productos")
+def productos():
+    return render_template("productos.html")
 
 @app.route("/home")
 def home():
@@ -70,7 +77,7 @@ def getFactura(id):
 
 
 # Welcome page
-@app.route("/welcome")
+@app.route("/welcome", methods=["GET", "POST"])
 def welcome():
     if True:
         piece = " <table> <thead><tr><th>Name</th><th>Description</th></tr></thead> <tbody> <tr><td>Name1</td><td>Description1</td></tr> <tr><td>Name2</td><td>Description2</td></tr> <tr><td>Name3</td><td>Description3</td></tr> </tbody> </table>"
@@ -119,7 +126,7 @@ def result():
     if request.method == "POST":  # Only if data has been posted
 
         if True:
-            return redirect(url_for("welcome"))
+            return redirect("/welcome")
         else:
             return redirect(url_for("login"))
 
@@ -128,6 +135,15 @@ def result():
 @app.route("/verfacturas", methods=["POST", "GET"])
 def verfacturas():
     return render_template("verfacturas.html")
+
+@app.route("/vercotizaciones", methods=["POST", "GET"])
+def vercotizaciones():
+    return render_template("vercotizaciones.html")
+
+
+@app.route("/verproductos", methods=["POST", "GET"])
+def verproductos():
+    return render_template("verproductos.html")
 
 
 # If someone clicks on register, they are redirected to /register

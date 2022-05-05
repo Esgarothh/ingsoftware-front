@@ -124,6 +124,15 @@ form .invoice-details .input-box{
 	font-size: 16px;
 }
 
+#myInput{
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	outline: none;
+	font-size: 16px;
+}
+
 .content-table{
 	border-collapse: collapse;
 	margin: 25px 0;
