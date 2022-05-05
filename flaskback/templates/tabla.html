@@ -1,3 +1,4 @@
+{% block tabla%}
 <table class="content-table">
     <thead>
         <tr>
@@ -12,15 +13,13 @@
         </tr>
     </thead>
     <tbody>
+        {% for item in my_list %}
         <tr>
-            <td>1</td>
-            <td>Julio Perez</td>
-            <td>Lavadora</td>
-            <td>$100</td>
-            <td>1</td>
-            <td>Lavadora de blanco</td>
-            <td>$100</td>
-            <td>2020-05-05</td>
+            <td>{{ item.description }}</td>
+            <td>{{ item.location }}</td>
+            <td>{{ item.status }}</td>
         </tr>
+        {% endfor %}
     </tbody>
 </table>
+{% endblock %}
