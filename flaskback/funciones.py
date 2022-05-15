@@ -1,7 +1,10 @@
 # FUNCIONES FACTURAS
 
 def CreateFactura(cursor, cliente_id, descripcion, fecha_emision, monto_neto):
-    cursor.execute("""INSERT INTO facturas(cliente_id, descripcion, fecha_emision, monto_neto) VALUES (%s, %s, %s, %s, %s);""", (cliente_id, descripcion, fecha_emision, monto_neto))
+    cursor.execute("""SELECT folio FROM facturas ORDER BY folio DESC LIMIT 1;""")
+    folio = cursor.fetchall()
+    folio = folio[0][0] + 1
+    cursor.execute("""INSERT INTO facturas(folio, cliente_id, descripcion, fecha_emision, monto_neto) VALUES (%s, %s, %s, %s, %s);""", (folio, cliente_id, descripcion, fecha_emision, monto_neto))
 
 def getFacturas(cursor, hoja):
     limite = (hoja * 10)
