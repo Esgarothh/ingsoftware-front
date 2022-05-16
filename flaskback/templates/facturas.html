@@ -29,31 +29,14 @@
                         <input type="date" disabled name="date" id="date"  required>
                     </div>
                 </div>
+            <form action="/crear_factura" method="POST">
                 <h2>Datos del Cliente</h2>
                 <div class="invoice-details">
                     <div class="input-box">
-                        <span class="details">Nombre del Cliente</span>
-                        <input type="text" name="customer_name" id="customer_name" placeholder="Julio Perez" required>
+                        <span class="details">Rut del Cliente</span>
+                        <input type="text" name="rut_cliente" id="rut_cliente" placeholder="123456789-K" required>
                     </div>
-                    <div class="input-box">
-                        <span class="details">Dirección</span>
-                        <input type="text" name="customer_address" id="customer_address"
-                            placeholder="Armando villanueva 5629" required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Teléfono</span>
-                        <input type="number" name="customer_phone" id="customer_phone" placeholder="56 9 1234 5678"
-                            required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Correo</span>
-                        <input type="email" name="customer_email" id="customer_email"
-                            placeholder="Julio.Perez@gmail.com" required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Codigo Postal</span>
-                        <input type="number" name="postal_code" id="postal_code" placeholder="53075" required>
-                    </div>
+
                 </div>
 
                 <table class="content-table">
@@ -79,6 +62,27 @@
                     </tbody>
                 </table>
                 <button id="myBtn" class="btn" type="button">Crear Producto</button>
+                <h2>Datos del Producto</h2>
+                <div class="invoice-details">
+                    <div class="input-box">
+                        <span class="details">Nombre del producto</span>
+                        <input type="text" name="product_name" id="product_name" placeholder="Lavadora" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Precio</span>
+                        <input type="number" name="product_price" id="product_price" placeholder="$100" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Cantidad</span>
+                        <input type="number" name="product_quantity" id="product_quantity" placeholder="1" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Descripción</span>
+                        <input type="text" name="product_description" id="product_description"
+                            placeholder="Lavadora de blanco" required>
+                    </div>
+
+                </div>
                 <input class="btn btn-dark" type="submit" value="Crear Factura">
 
                 <div class="modal fade" id="ModalProducto">

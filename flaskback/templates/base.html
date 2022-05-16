@@ -1,4 +1,11 @@
-<header>
+<!doctype html>
+<title>{% block title %}{% endblock %} - Flaskr</title>x
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'welcome.css')}}">
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'facturas.css')}}">
+<!-- CSS only -->
+<header class="navbar navbar-light bg-light">
+
+
     <h2><a href="/welcome" class="logo">Menu</a></h2>
     <div class="navigation">
         <ul>
@@ -21,6 +28,15 @@
             <li><a href="/verproductos"><i class="fa fa-user"></i>Producto</a></li>
         </ul>
     </div>
+
 </header>
-{% block page_content %}
-{% endblock %}
+
+<body>
+    {% block first %}{% endblock %}
+    {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% block page_content %}{% endblock %}
+
+    </div>
+</body>

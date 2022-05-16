@@ -1,0 +1,46 @@
+{%extends "base.html"%}
+
+{% block title %}
+
+{% endblock %}
+{%block first%}
+<section class="content">
+    <div class="info">
+        <h2>Bienvenido<br>
+            <span>Sistema de facturación</span>
+        </h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, asperiores unde, modi maiores
+            itaque quam sit, dicta saepe dolorum perspiciatis nihil! Libero distinctio minus aspernatur
+            praesentium rem ad beatae atque.</p>
+        <h1>{{piece | safe}}</h1>
+        <a href="#" class="info-btn">Más Información</a>
+    </div>
+</section>
+{%endblock%}
+{%block content%}
+<table class="content-table">
+    <thead>
+        <tr>
+            <th>Folio</th>
+            <th>Cliente</th>
+            <th>Fecha Emision</th>
+            <th>Monto</th>
+            <th>Descripción</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in my_list %}
+        <tr>
+            <td>{{ item.folio }}</td>
+            <td>{{ item.cliente }}</td>
+            <td>{{ item.fechaemision }}</td>
+            <td>{{ item.monto }}</td>
+            <td>{{ item.descripcion}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{%endblock%}
+
+{%block footer%}
+{%endblock%}

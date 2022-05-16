@@ -75,13 +75,21 @@ def facturas():
     ]
     return render_template("facturas.html",my_list=my_list,list_products=list_products)
 
+
 @app.route("/cotizaciones")
 def cotizaciones():
     return render_template("cotizaciones.html")
 
+
 @app.route("/productos")
 def productos():
     return render_template("productos.html")
+
+
+@app.route("/home")
+def home():
+    return render_template("home.html")
+
 
 @app.route("/signupError")
 def signupError():
@@ -90,15 +98,10 @@ def signupError():
     return render_template("signup.html", error=error)
 
 
-def getFactura(id):
-    cursor.execute("SELECT * FROM facturas WHERE id = %s", (id,))
-
-
 # Welcome page
 @app.route("/welcome", methods=["GET", "POST"])
 def welcome():
     if True:
-        hola()
         piece = " <table> <thead><tr><th>Name</th><th>Description</th></tr></thead> <tbody> <tr><td>Name1</td><td>Description1</td></tr> <tr><td>Name2</td><td>Description2</td></tr> <tr><td>Name3</td><td>Description3</td></tr> </tbody> </table>"
 
         my_list = [
@@ -124,6 +127,10 @@ def welcome():
                 "descripcion": "descripcion",
             },
         ]
+
+        filas = getFacturas(cursor, 0)
+        maximo = len(filas)
+
         # cursor.execute("""SELECT nombre_empresa, mail FROM usuarios WHERE rut_empresa = 123456789""")
         # user_pass = cursor.fetchall()
         return render_template(
@@ -133,10 +140,24 @@ def welcome():
             qrCode=123123,
             texto="FUNCIONA",
             piece=piece,
-            my_list=my_list,
+            my_list=filas,
+            maximo=maximo,
         )
         # return render_template("welcome.html", name='b', email = 'a', qrCode=123123)
         # return render_template("camara.html", name=person["name"], email = person["email"])
+
+
+@app.route("/crear_factura", methods=["GET", "POST"])
+def crear_factura():
+    if request.method == "POST":
+        precio = request.form.get("product_price")
+        cliente = request.form.get("rut_cliente")
+        descripcion = request.form.get("product_description")
+        fecha_emision = "2020-01-01"
+        monto_neto = request.form.get("product_price")
+        print(precio)
+        CreateFactura(cursor, 999, cliente, descripcion, fecha_emision, monto_neto)
+        return redirect("/verfacturas")
 
 
 # If someone clicks on login, they are redirected to /result
@@ -154,6 +175,7 @@ def result():
 @app.route("/verfacturas", methods=["POST", "GET"])
 def verfacturas():
     return render_template("verfacturas.html")
+
 
 @app.route("/vercotizaciones", methods=["POST", "GET"])
 def vercotizaciones():
