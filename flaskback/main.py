@@ -50,7 +50,30 @@ def signup():
 
 @app.route("/facturas")
 def facturas():
-    return render_template("facturas.html")
+    list_products = [
+        {
+            "codigo": "1",
+            "desc": "Producto 1",
+            "cant": "1",
+            "precio": "100",
+            "total": "100",
+        },
+        {
+            "codigo": "2",
+            "desc": "Producto 2",
+            "cant": "4",
+            "precio": "300",
+            "total": "1200",
+        },
+        {
+            "codigo": "3",
+            "desc": "Producto 3",
+            "cant": "7",
+            "precio": "500",
+            "total": "3500",
+        },
+    ]
+    return render_template("facturas.html",my_list=my_list,list_products=list_products)
 
 @app.route("/cotizaciones")
 def cotizaciones():
@@ -139,7 +162,30 @@ def vercotizaciones():
 
 @app.route("/verproductos", methods=["POST", "GET"])
 def verproductos():
-    return render_template("verproductos.html")
+    list_products = [
+        {
+            "id": "1",
+            "nombre": "Producto 1",
+            "precio": "100",
+            "cantidad": "1",
+            "descripcion": "descripcion",
+        },
+        {
+            "id": "2",
+            "nombre": "Producto 2",
+            "precio": "300",
+            "cantidad": "4",
+            "descripcion": "descripcion",
+        },
+        {
+            "id": "3",
+            "nombre": "Producto 3",
+            "precio": "500",
+            "cantidad": "7",
+            "descripcion": "descripcion",
+        },
+    ]
+    return render_template("verproductos.html",list_products=list_products)
 
 
 # If someone clicks on register, they are redirected to /register

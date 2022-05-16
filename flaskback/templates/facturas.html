@@ -11,13 +11,24 @@
 <body>
     {%extends "base.html" %}
 
-	{% block page_content %}
+    {% block page_content %}
     <main>
         <div class="container">
             <div class="title">
                 <h1>Crear Factura</h1>
             </div>
-            <form action="#">
+            <form action="{{ url_for('facturas')}}" method="POST">
+                <div class="invoice-details">
+                    <div class="input-box">
+                        <span class="details">N° de factura</span>
+                        <input type="number" disabled name="invoice_number" id="invoice_number" placeholder="1"
+                            required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Fecha</span>
+                        <input type="date" disabled name="date" id="date"  required>
+                    </div>
+                </div>
                 <h2>Datos del Cliente</h2>
                 <div class="invoice-details">
                     <div class="input-box">
@@ -45,35 +56,73 @@
                     </div>
                 </div>
 
-                <h2>Datos del Producto</h2>
-                <div class="invoice-details">
-                    <div class="input-box">
-                        <span class="details">Nombre del producto</span>
-                        <input type="text" name="product_name" id="product_name" placeholder="Lavadora" required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Precio</span>
-                        <input type="number" name="product_price" id="product_price" placeholder="$100" required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Cantidad</span>
-                        <input type="number" name="product_quantity" id="product_quantity" placeholder="1" required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Descripción</span>
-                        <input type="text" name="product_description" id="product_description"
-                            placeholder="Lavadora de blanco" required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Sub_total</span>
-                        <input type="number" name="sub_total" id="sub_total" placeholder="$100" required>
-                    </div>
-                </div>
+                <table class="content-table">
+                    <thead>
+                        <tr>
+                            <th>Codigo de Articulo</th>
+                            <th>Descripción</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in my_list %}
+                        <tr>
+                            <td>{{ item.codigo}}</td>
+                            <td>{{ item.desc }}</td>
+                            <td>{{ item.cant }}</td>
+                            <td>{{ item.precio }}</td>
+                            <td>{{ item.total}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button id="myBtn" class="btn" type="button">Crear Producto</button>
                 <input class="btn btn-dark" type="submit" value="Crear Factura">
 
-            </form>
+                <div class="modal fade" id="ModalProducto">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h2>Agregar Producto</h2>
+                                <button type="button" class="close">
+                                    <span aria-hidden="true">x</span>
+                                </button>
+                            </div>
+                            
+                            <div class="modal-body">
+
+                                <div class="form-group">
+                                    <label>Producto:</label>
+                                    
+                                    <select class="form-control" id="CodigoProducto">
+                                        {% for item in list_products %}
+                                        <option value="1">{{ item.desc}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group ">
+                                        <label>Cantidad:</label>
+                                        <input type="number" id="Cantidad" class="form-control" placeholder="" min="1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="btnConfirmarAgregarProducto" class="btn btn-success">Agregar a
+                                    la factura</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </form>
         </div>
     </main>
+    <script type="text/javascript" src="../static/Modal.js"></script>
 </body>
 </form>
 </div>

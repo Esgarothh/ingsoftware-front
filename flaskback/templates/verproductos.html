@@ -4,91 +4,172 @@
 <head>
     <title>Productos</title>
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'welcome.css')}}">
-    <link rel="stylesheet" type="text/css" href="../static/facturas.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="../static/producto.css">
     <script src="../static/Search.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+
 
 </head>
 
 {%extends "base.html" %}
 
 {% block page_content %}
-<div class="container">
-    <h1>Productos Añadidos</h1>
-    <input type="text" id="myInput" onkeyup="search()" placeholder="Search for names.." title="Type in a name">
-    <table id="table" class="content-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Cliente</th>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Descripción</th>
-                <th>PDF</th>
-                <th>Fecha</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>Julio Perez</td>
-                <td>Lavadora</td>
-                <td>$100</td>
-                <td>1</td>
-                <td>Lavadora de blanco</td>
-                <td>
-                    <div id="datotexto" value="{{texto}}">...</div>
-                    <button type="button" class="btn btn-primary">
-                        <i class="fas fa-eye"> VER</i>
-
-                    </button>
-                </td>
-                <td>2020-05-05</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Julio Perez</td>
-                <td>Lavadora</td>
-                <td>$100</td>
-                <td>1</td>
-                <td>Lavadora de blanco</td>
-                <td>
-                    <div id="datotexto" value="{{texto}}">...</div>
-                    <button type="button" class="btn btn-primary">
-                        <i class="fas fa-eye"> VER</i>
-
-                    </button>
-                </td>
-                <td>2020-05-05</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Julio Perez</td>
-                <td>Lavadora</td>
-                <td>$100</td>
-                <td>1</td>
-                <td>Lavadora de blanco</td>
-                <td>
-                    <div id="datotexto" value="{{texto}}">...</div>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#this-modal-id"
-                        onclick="mostrarpdf()">
-                        <i class="fas fa-eye"> VER</i>
-
-                    </button>
-                </td>
-                <td>2020-05-05</td>
-            </tr>
-    </table>
-</div>
+<main>
+    <div class="container">
+        <h1>Productos Añadidos</h1>
+        <input type="text" id="myInput" onkeyup="search()" placeholder="Search for names.." title="Type in a name">
+        <div class="options">
+            <button class="btn btn-success" data-toggle="modal" id="btnAddProduct"><i
+                    class="material-icons">&#xE147;</i>
+                <span>Añadir nuevo Producto</span></button>
+            <button class="btn btn-danger" data-toggle="modal" id="btnDeleteProduct"><i
+                    class="material-icons">&#xE15C;</i>
+                <span>Borrar</span></button>
+        </div>
+        <table id="table" class="content-table">
+            <thead>
+                <tr>
+                    <th>
+                        <span class="custom-checkbox">
+                            <input type="checkbox" id="selectAll">
+                        </span>
+                    </th>
+                    <th>ID</th>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in list_products %}
+                <tr>
+                    <td>
+                        <span class="custom-checkbox">
+                            <input type="checkbox" id="check" name="options[]" value="1">
+                        </span>
+                    </td>
+                    <td>{{producto.id}}</td>
+                    <td>{{producto.nombre}}</td>
+                    <td>{{producto.precio}}</td>
+                    <td>{{producto.cantidad}}</td>
+                    <td>{{producto.descripcion}}</td>
+                    <td>
+                        <button href="" id="btnEditProduct" class="edit" data-toggle="modal"><i class="material-icons"
+                                data-toggle="tooltip" title="Edit">&#xE254;</i></button>
+                        <button href="" id="btnDeleteProduct" class="delete" data-toggle="modal"><i
+                                class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="../static/Prueba.js"></script>
+    <div id="addProductModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Añadir Empleado</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Descripcion</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Precio</label>
+                            <input type="number" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Cantidad</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-success" value="Añadir">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="editProductModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Editar Producto</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input id="txtname" type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Descripcion</label>
+                            <textarea id="txtdesc" type="email" class="form-control" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Precio</label>
+                            <input id="txtprice" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Cantidad</label>
+                            <input id="txtstock" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                        <input type="submit" class="btn btn-info" value="Guardar">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="deleteProductModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Borrar Producto</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Estas seguro que quieres borrar este producto?</p>
+                        <p class="text-warning"><small> Esta accion no se puede deshacer.</small></p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+                        <input type="submit" class="btn btn-danger" value="Borrar">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--<script src="../static/Product.js"></script>-->
+    
 </main>
-<div class="modal bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+<!-- <div class="modal bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
     aria-hidden="true" style="display: none" id="this-modal-id">
     <div class="modal-content" style="height:600px; width: 1200px;  overflow-y: scroll">
         <div class="modal-body ">
             <iframe width="100%" height="800px"></iframe>
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
+        </div>-->
+<!-- /.modal-dialog -->
+<!-- </div>
 
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" ,onclick="reload()">Close</button>
@@ -106,22 +187,17 @@
 
     <script type="text/javascript">
         var texto = "{{ texto }}"
-
     </script>
-    <script src="{{url_for('static', filename='jquery.min.js')}}"></script>
-    <!-- Bootstrap popper Core JavaScript -->
-    +
-    <script src="{{url_for('static', filename='bootstrap.min.js')}}"></script>
+    <script src="{{url_for('static', filename='jquery.min.js')}}"></script>-->
+<!-- Bootstrap popper Core JavaScript -->
++
+<!--<script src="{{url_for('static', filename='bootstrap.min.js')}}"></script>
 
     <script src="https://github.com/devongovett/blob-stream/releases/download/v0.1.3/blob-stream.js"></script>
 
 
     <script src="{{url_for('static', filename='funcionesPdfPlantilla.js')}}"></script>
     <script src="{{url_for('static', filename='pdfkit.standalone.js')}}"></script>
-    <script src="{{url_for('static', filename='pdfCreator.js')}}"></script>
-
-
-
-
+    <script src="{{url_for('static', filename='pdfCreator.js')}}"></script>-->
 
 </html>
