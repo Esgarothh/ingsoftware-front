@@ -73,7 +73,7 @@ def facturas():
             "total": "3500",
         },
     ]
-    return render_template("facturas.html",my_list=my_list,list_products=list_products)
+    return render_template("facturas.html",list_products=list_products)
 
 
 @app.route("/cotizaciones")
