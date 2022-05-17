@@ -42,24 +42,22 @@
                     <th>ID</th>
                     <th>Producto</th>
                     <th>Precio</th>
-                    <th>Cantidad</th>
-                    <th>Descripción</th>
+                    <th>Descripcion</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                {% for producto in list_products %}
+                {% for i in range(0,maximo,1) %}
                 <tr>
                     <td>
                         <span class="custom-checkbox">
                             <input type="checkbox" id="check" name="options[]" value="1">
                         </span>
                     </td>
-                    <td>{{producto.id}}</td>
-                    <td>{{producto.nombre}}</td>
-                    <td>{{producto.precio}}</td>
-                    <td>{{producto.cantidad}}</td>
-                    <td>{{producto.descripcion}}</td>
+					<td>{{ productos[i][0] }}</td> <!-- ID-->
+					<td>{{ productos[i][1] }}</td> <!-- Nombre-->
+					<td>{{ productos[i][3] }}</td> <!-- Descripción-->
+                    <td>{{ productos[i][2] }}</td> <!-- Precio-->
                     <td>
                         <button href="" id="btnEditProduct" class="edit" data-toggle="modal"><i class="material-icons"
                                 data-toggle="tooltip" title="Edit">&#xE254;</i></button>
@@ -77,25 +75,23 @@
             <div class="modal-content">
                 <form>
                     <div class="modal-header">
-                        <h4 class="modal-title">Añadir Empleado</h4>
+                        <h4 class="modal-title">Añadir Producto</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
+                </form>
+                    <form action="/crear_producto" method="POST">
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Nombre</label>
-                            <input type="text" class="form-control" required>
+                            <input type="text" name="nombre" id="nombre" required>
                         </div>
                         <div class="form-group">
                             <label>Descripcion</label>
-                            <input type="text" class="form-control" required>
+                            <input type="text" name="descripcion" id="descripcion" required>
                         </div>
                         <div class="form-group">
                             <label>Precio</label>
-                            <input type="number" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Cantidad</label>
-                            <input type="text" class="form-control" required>
+                            <input type="text" name="precio" id="precio" required>
                         </div>
                         <div class="modal-footer">
                             <input type="submit" class="btn btn-success" value="Añadir">
@@ -113,27 +109,26 @@
                         <h4 class="modal-title">Editar Producto</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
+                </form>
+                <form action="/editar_producto" method="POST">
                     <div class="modal-body">
+                        <input id="edit_id" name="edit_id" type="hidden" class="form-control" >
                         <div class="form-group">
                             <label>Nombre</label>
-                            <input id="txtname" type="text" class="form-control" required>
+                            <input id="edit_nombre" name="edit_nombre" type="text" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label>Descripcion</label>
-                            <textarea id="txtdesc" type="email" class="form-control" required></textarea>
+                            <textarea id="edit_descripcion" name="edit_descripcion"type="text" class="form-control" required></textarea>
                         </div>
                         <div class="form-group">
                             <label>Precio</label>
-                            <input id="txtprice" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Cantidad</label>
-                            <input id="txtstock" type="text" class="form-control" required>
+                            <input id="edit_precio" name="edit_precio" class="form-control" required>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-                        <input type="submit" class="btn btn-info" value="Guardar">
+                        <input type="submit" class="btn btn-success" value="Guardar">
                     </div>
                 </form>
             </div>
@@ -142,7 +137,7 @@
     <div id="deleteProductModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form>
+                <form action="/delete_producto" method="POST" >
                     <div class="modal-header">
                         <h4 class="modal-title">Borrar Producto</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -152,6 +147,7 @@
                         <p class="text-warning"><small> Esta accion no se puede deshacer.</small></p>
                     </div>
                     <div class="modal-footer">
+                        <input id="delete_id" name="delete_id" type="hidden" class="form-control" >
                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
                         <input type="submit" class="btn btn-danger" value="Borrar">
                     </div>
