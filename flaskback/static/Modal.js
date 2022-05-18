@@ -37,7 +37,7 @@ var today = new Date();
 
       // today = yyyy + '/' + mm + '/' + dd;
        today = yyyy + '-' + mm + '-' + dd;
-       document.getElementById('date').value = today;
+       //document.getElementById('date').value = today;
 
 //Agregar producto a la factura
 var btnConfirmarAgregarProducto = document.getElementById("btnConfirmarAgregarProducto");

@@ -1,4 +1,6 @@
+from datetime import datetime
 import os
+from pydoc import describe
 import urllib.parse as up
 import psycopg2
 from funciones import *
@@ -76,7 +78,9 @@ def facturas():
             "total": "3500",
         },
     ]
-    return render_template("facturas.html",list_products=list_products)
+    folio = getLastFolio(cursor)
+    fecha = datetime.today().strftime('%Y-%m-%d')
+    return render_template("facturas.html",list_products=list_products, folio=folio[0][0] + 1, fecha=fecha)
 
 
 @app.route("/cotizaciones")
@@ -182,12 +186,51 @@ def crear_factura():
         precio = request.form.get("product_price")
         cliente = request.form.get("rut_cliente")
         descripcion = request.form.get("product_description")
-        fecha_emision = "2020-01-01"
+        fecha_emision = datetime.today().strftime('%Y-%m-%d')
         monto_neto = request.form.get("product_price")
-        print(precio)
-        CreateFactura(cursor, 999, cliente, descripcion, fecha_emision, monto_neto)
+        CreateFactura(cursor, cliente, descripcion, fecha_emision, monto_neto)
         return redirect("/verfacturas")
 
+@app.route("/editar_producto", methods=["GET", "POST"])
+def editar_producto():
+    if request.method == "POST":
+        id = request.form.get("edit_id")
+        nombre = request.form.get("edit_nombre")
+        descripcion = request.form.get("edit_descripcion")
+        precio = request.form.get("edit_precio")
+        updateProducto(cursor, id, nombre, descripcion, precio)
+        return redirect("/verproductos")
+
+@app.route("/delete_producto", methods=["GET", "POST"])
+def delete_producto():
+    if request.method == "POST":
+        id = request.form.get("delete_id")
+        print(id)
+        deleteProducto(cursor, id)
+        return redirect("/verproductos")
+
+
+
+@app.route("/crear_cotizacion", methods=["GET", "POST"])
+def crear_cotizacion():
+    if request.method == "POST":
+        #precio = request.form.get("product_price")
+        #cliente = request.form.get("rut_cliente")
+        #descripcion = request.form.get("product_description")
+        #fecha_emision = datetime.today().strftime('%Y-%m-%d')
+        #monto_neto = request.form.get("product_price")
+        #print(precio)
+        #CreateFactura(cursor, cliente, descripcion, fecha_emision, monto_neto)
+        return redirect("/verfacturas")
+
+@app.route("/crear_producto", methods=["GET", "POST"])
+def crear_producto():
+    if request.method == "POST":
+        nombre = request.form.get("nombre")
+        descripcion = request.form.get("descripcion")
+        precio = request.form.get("precio")
+        createProducto(cursor, nombre, descripcion, precio)
+        return redirect("/verproductos")
 
 # If someone clicks on login, they are redirected to /result
 @app.route("/result", methods=["POST", "GET"])
@@ -203,40 +246,23 @@ def result():
 # If someone clicks on register, they are redirected to /register
 @app.route("/verfacturas", methods=["POST", "GET"])
 def verfacturas():
-    return render_template("verfacturas.html")
+    facturas = getFacturas(cursor, 0)
+    maximo = len(facturas)
+    return render_template("verfacturas.html",lista_facturas=facturas,maximo=maximo)
 
 
 @app.route("/vercotizaciones", methods=["POST", "GET"])
 def vercotizaciones():
-    return render_template("vercotizaciones.html")
+    cotizaciones = getCotizaciones(cursor, 0)
+    maximo = len(cotizaciones)
+    return render_template("vercotizaciones.html",lista_cotizaciones=cotizaciones,maximo=maximo)
 
 
 @app.route("/verproductos", methods=["POST", "GET"])
 def verproductos():
-    list_products = [
-        {
-            "id": "1",
-            "nombre": "Producto 1",
-            "precio": "100",
-            "cantidad": "1",
-            "descripcion": "descripcion",
-        },
-        {
-            "id": "2",
-            "nombre": "Producto 2",
-            "precio": "300",
-            "cantidad": "4",
-            "descripcion": "descripcion",
-        },
-        {
-            "id": "3",
-            "nombre": "Producto 3",
-            "precio": "500",
-            "cantidad": "7",
-            "descripcion": "descripcion",
-        },
-    ]
-    return render_template("verproductos.html",list_products=list_products)
+    productos = getProductos(cursor, 0)
+    maximo = len(productos)
+    return render_template("verproductos.html",productos = productos, maximo=maximo)
 
 
 # If someone clicks on register, they are redirected to /register

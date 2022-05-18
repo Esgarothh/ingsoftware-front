@@ -6,6 +6,10 @@ def CreateFactura(cursor, cliente_id, descripcion, fecha_emision, monto_neto):
     folio = folio[0][0] + 1
     cursor.execute("""INSERT INTO facturas(folio, cliente_id, descripcion, fecha_emision, monto_neto) VALUES (%s, %s, %s, %s, %s);""", (folio, cliente_id, descripcion, fecha_emision, monto_neto))
 
+def getLastFolio(cursor):
+    cursor.execute("""SELECT folio FROM facturas ORDER BY folio DESC LIMIT 1;""")
+    return cursor.fetchall()
+
 def getFacturas(cursor, hoja):
     limite = (hoja * 10)
     cursor.execute("""SELECT * FROM facturas LIMIT 10 OFFSET %s;""", (limite,))
@@ -25,8 +29,8 @@ def getFacturasByFecha(cursor, fecha1, fecha2):
 
 # FUNCIONES COTIZACIONES
 
-def createCotizacion(cursor, estado, cliente_id, fecha, total):
-    cursor.execute("""INSERT INTO facturas(estado, cliente_id, fecha, total) VALUES (%s, %s, %s, %s);""", (estado, cliente_id, fecha, total))
+def createCotizacion(cursor, descripcion, cliente_id, fecha, total):
+    cursor.execute("""INSERT INTO facturas(descripcion, cliente_id, fecha, total) VALUES (%s, %s, %s, %s);""", (descripcion, cliente_id, fecha, total))
 
 def getCotizaciones(cursor, hoja):
     limite = (hoja * 10)
@@ -48,8 +52,8 @@ def getCotizacionesByFecha(cursor, fecha1, fecha2):
 def updateClienteCotizacion(cursor, id, cliente_id):
     cursor.execute("""UPDATE cotizaciones SET cliente_id = %s WHERE id_cotizacion = %s;""", (cliente_id, id,))
 
-def updateEstadoCotizacion(cursor, id, estado):
-    cursor.execute("""UPDATE cotizaciones SET estado = %s WHERE id_cotizacion = %s;""", (id, estado,))
+def updateDescripcionCotizacion(cursor, id, descripcion):
+    cursor.execute("""UPDATE cotizaciones SET descripcion = %s WHERE id_cotizacion = %s;""", (id, descripcion,))
 
 def updateTotalCotizacion(cursor, id, total):
     cursor.execute("""UPDATE cotizaciones SET total = %s WHERE id_cotizacion = %s;""", (total, id,))
@@ -77,6 +81,9 @@ def getProductoById(cursor, id):
 def getProductoByNombre(cursor, nombre):
     cursor.execute("""SELECT * FROM productos WHERE productos nombre = %s;""", (nombre,))
     return cursor.fetchall()
+
+def updateProducto(cursor, id, nombre, descripcion, costo_neto):
+    cursor.execute("""UPDATE productos SET nombre = %s, descripcion = %s, costo_neto = %s WHERE id_producto = %s;""", (nombre, descripcion, costo_neto, id,))
 
 def updateNombreProducto(cursor, id, nombre):
     cursor.execute("""UPDATE productos SET nombre = %s WHERE id_producto = %s;""", (nombre, id,))

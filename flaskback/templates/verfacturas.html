@@ -18,66 +18,32 @@
     <table id="table" class="content-table">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Cliente</th>
-                <th>Producto</th>
-                <th>Precio</th>
-                <th>Cantidad</th>
+                <th>Folio</th>
+                <th>ID Cliente</th>
                 <th>Descripción</th>
+                <th>Monto</th>
                 <th>PDF</th>
                 <th>Fecha</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Julio Perez</td>
-                <td>Lavadora</td>
-                <td>$100</td>
-                <td>1</td>
-                <td>Lavadora de blanco</td>
-                <td>
-                    <div id="datotexto" value="{{texto}}">...</div>
-                    <button type="button" class="btn btn-primary">
-                        <i class="fas fa-eye"> VER</i>
-
-                    </button>
-                </td>
-                <td>2020-05-05</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Julio Perez</td>
-                <td>Lavadora</td>
-                <td>$100</td>
-                <td>1</td>
-                <td>Lavadora de blanco</td>
-                <td>
-                    <div id="datotexto" value="{{texto}}">...</div>
-                    <button type="button" class="btn btn-primary">
-                        <i class="fas fa-eye"> VER</i>
-
-                    </button>
-                </td>
-                <td>2020-05-05</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Julio Perez</td>
-                <td>Lavadora</td>
-                <td>$100</td>
-                <td>1</td>
-                <td>Lavadora de blanco</td>
-                <td>
-                    <div id="datotexto" value="{{texto}}">...</div>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#this-modal-id"
-                        onclick="mostrarpdf()">
-                        <i class="fas fa-eye"> VER</i>
-
-                    </button>
-                </td>
-                <td>2020-05-05</td>
-            </tr>
+            {% for i in range(0,maximo,1) %}
+				<tr>
+					<td>{{ lista_facturas[i][0] }}</td> <!-- Folio-->
+					<td>{{ lista_facturas[i][1] }}</td> <!-- ID cliente-->
+					<td>{{ lista_facturas[i][2] }}</td> <!-- Descripción-->
+                    <td>{{ lista_facturas[i][4] }}</td> <!-- Monto-->
+                    <td>
+                        <div id="datotexto" value="{{texto}}">...</div>
+                        <button type="button" class="btn btn-primary">
+                            <i class="fas fa-eye"> VER</i>
+    
+                        </button>
+                    </td>
+					<td>{{ lista_facturas[i][3] }}</td> <!-- fecha-->
+				</tr>
+			{% endfor %}
+        </tbody>
     </table>
 </div>
 </main>
