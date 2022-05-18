@@ -53,6 +53,7 @@ def facturas():
     list_products = [
         {
             "codigo": "1",
+            "nombre": "Pizarra",
             "desc": "Producto 1",
             "cant": "1",
             "precio": "100",
@@ -60,6 +61,7 @@ def facturas():
         },
         {
             "codigo": "2",
+            "nombre": "Borrador",
             "desc": "Producto 2",
             "cant": "4",
             "precio": "300",
@@ -67,6 +69,7 @@ def facturas():
         },
         {
             "codigo": "3",
+            "nombre": "Lapiz",
             "desc": "Producto 3",
             "cant": "7",
             "precio": "500",
@@ -78,7 +81,33 @@ def facturas():
 
 @app.route("/cotizaciones")
 def cotizaciones():
-    return render_template("cotizaciones.html")
+    list_products = [
+        {
+            "codigo": "1",
+            "nombre": "Pizarra",
+            "desc": "Producto 1",
+            "cant": "1",
+            "precio": "100",
+            "total": "100",
+        },
+        {
+            "codigo": "2",
+            "nombre": "Borrador",
+            "desc": "Producto 2",
+            "cant": "4",
+            "precio": "300",
+            "total": "1200",
+        },
+        {
+            "codigo": "3",
+            "nombre": "Lapiz",
+            "desc": "Producto 3",
+            "cant": "7",
+            "precio": "500",
+            "total": "3500",
+        },
+    ]
+    return render_template("cotizaciones.html",list_products=list_products)
 
 
 @app.route("/productos")
