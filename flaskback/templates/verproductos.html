@@ -27,18 +27,10 @@
             <button class="btn btn-success" data-toggle="modal" id="btnAddProduct"><i
                     class="material-icons">&#xE147;</i>
                 <span>Añadir nuevo Producto</span></button>
-            <button class="btn btn-danger" data-toggle="modal" id="btnDeleteProduct"><i
-                    class="material-icons">&#xE15C;</i>
-                <span>Borrar</span></button>
         </div>
         <table id="table" class="content-table">
             <thead>
                 <tr>
-                    <th>
-                        <span class="custom-checkbox">
-                            <input type="checkbox" id="selectAll">
-                        </span>
-                    </th>
                     <th>ID</th>
                     <th>Producto</th>
                     <th>Precio</th>
@@ -49,11 +41,6 @@
             <tbody>
                 {% for i in range(0,maximo,1) %}
                 <tr>
-                    <td>
-                        <span class="custom-checkbox">
-                            <input type="checkbox" id="check" name="options[]" value="1">
-                        </span>
-                    </td>
 					<td>{{ productos[i][0] }}</td> <!-- ID-->
 					<td>{{ productos[i][1] }}</td> <!-- Nombre-->
 					<td>{{ productos[i][3] }}</td> <!-- Descripción-->
