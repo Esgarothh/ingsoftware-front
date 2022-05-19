@@ -1,5 +1,5 @@
 from datetime import datetime
-import os
+
 from pydoc import describe
 import urllib.parse as up
 import psycopg2
@@ -16,7 +16,10 @@ from flask import (
     url_for,
 )
 import json
+import sys
 
+print('This is error output', file=sys.stderr)
+print('This is standard output', file=sys.stdout)
 
 up.uses_netloc.append("postgres")
 url = up.urlparse(
@@ -56,7 +59,8 @@ def facturas():
     maximo = len(productos)
     folio = getLastFolio(cursor)
     fecha = datetime.today().strftime('%Y-%m-%d')
-    return render_template("facturas.html",productos=productos, folio=folio[0][0] + 1, fecha=fecha, maximo=maximo)
+    return render_template("facturas.html",productos=productos, folio=folio[0][0]+1, fecha=fecha, maximo=maximo)
+    
 
 
 @app.route("/cotizaciones")
@@ -112,12 +116,26 @@ def welcome():
 @app.route("/crear_factura", methods=["GET", "POST"])
 def crear_factura():
     if request.method == "POST":
-        precio = request.form.get("product_price")
-        cliente = request.form.get("rut_cliente")
-        descripcion = request.form.get("product_description")
+        folio = request.form.get("folio")
         fecha_emision = datetime.today().strftime('%Y-%m-%d')
-        monto_neto = request.form.get("product_price")
-        CreateFactura(cursor, cliente, descripcion, fecha_emision, monto_neto)
+        descripcion = request.form.get("descripcion_factura")
+        rut_cliente = request.form.get("rut_cliente")
+        nombre_cliente = request.form.get("nombre_cliente")
+        giro = request.form.get("giro")
+        productos_factura = request.form.get("productos_final").split(",")
+        monto_neto = 0
+        for i in range(int(len(productos_factura)/3)):
+            producto_nuevo = []
+            for j in range(3):
+                productos_factura[i*3+j] = int(productos_factura[i*3+j])
+                producto_nuevo.append(productos_factura[i*3+j])
+                if j+1 % 3 == 3:
+                    print(int(productos_factura[i*3+j]))
+                    monto_neto += int(productos_factura[i*3+j])
+            agregarProductoFactura(cursor, producto_nuevo[0], folio, producto_nuevo[1], producto_nuevo[2])
+        print(fecha_emision, descripcion, monto_neto, rut_cliente, nombre_cliente, giro, productos_factura)
+        createCliente(cursor, rut_cliente, nombre_cliente, giro)
+        CreateFactura(cursor, rut_cliente, descripcion, fecha_emision, monto_neto)
         return redirect("/verfacturas")
 
 @app.route("/editar_producto", methods=["GET", "POST"])
@@ -177,7 +195,12 @@ def result():
 def verfacturas():
     facturas = getFacturas(cursor, 0)
     maximo = len(facturas)
-    return render_template("verfacturas.html",lista_facturas=facturas,maximo=maximo)
+    nombres = []
+    for x in facturas:
+        lista = list(x)
+        cliente = getClienteByID(cursor, lista[1])
+        nombres.append(cliente[0][0])
+    return render_template("verfacturas.html",lista_facturas=facturas,maximo=maximo,clientes=nombres)
 
 
 @app.route("/vercotizaciones", methods=["POST", "GET"])
@@ -200,10 +223,8 @@ def register():
     return redirect(url_for("welcome"))
 
 
-if __name__ == "__main__":
-
-    app.run(host="0.0.0.0")
-    # app.run(ssl_context=('cert.pem', 'key.pem'))
+if __name__ == '__main__':
+    app.run(host='0.0.0.0',debug=True)
 
 conn.commit()
 conn.close()
