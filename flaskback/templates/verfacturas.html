@@ -30,7 +30,7 @@
             {% for i in range(0,maximo,1) %}
 				<tr>
 					<td>{{ lista_facturas[i][0] }}</td> <!-- Folio-->
-					<td>{{ lista_facturas[i][1] }}</td> <!-- ID cliente-->
+					<td>{{ clientes[i] }}</td> <!-- ID cliente-->
 					<td>{{ lista_facturas[i][2] }}</td> <!-- Descripción-->
                     <td>{{ lista_facturas[i][4] }}</td> <!-- Monto-->
                     <td>

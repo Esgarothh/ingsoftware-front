@@ -1,10 +1,7 @@
 # FUNCIONES FACTURAS
 
 def CreateFactura(cursor, cliente_id, descripcion, fecha_emision, monto_neto):
-    cursor.execute("""SELECT folio FROM facturas ORDER BY folio DESC LIMIT 1;""")
-    folio = cursor.fetchall()
-    folio = folio[0][0] + 1
-    cursor.execute("""INSERT INTO facturas(folio, cliente_id, descripcion, fecha_emision, monto_neto) VALUES (%s, %s, %s, %s, %s);""", (folio, cliente_id, descripcion, fecha_emision, monto_neto))
+    cursor.execute("""INSERT INTO facturas(cliente_id, descripcion, fecha_emision, monto_neto) VALUES (%s, %s, %s, %s);""", (cliente_id, descripcion, fecha_emision, monto_neto))
 
 def getLastFolio(cursor):
     cursor.execute("""SELECT folio FROM facturas ORDER BY folio DESC LIMIT 1;""")
@@ -100,3 +97,16 @@ def updateDescripcionProducto(cursor, id, descripcion):
 
 def deleteProducto(cursor, id):
     cursor.execute("""DELETE FROM productos WHERE id_producto = %s;""", (id,))
+ 
+#FUNCIONES CLIENTES
+
+def createCliente(cursor, rut_cliente, nombre_cliente, giro):
+    cursor.execute("""INSERT INTO clientes(rut_cliente, nombre_cliente, giro) VALUES (%s, %s, %s);""", (rut_cliente, nombre_cliente, giro))
+
+def getClienteByID(cursor, id):
+    cursor.execute("""SELECT nombre_cliente FROM clientes WHERE rut_cliente = %s;""", (id,))
+    return cursor.fetchall()
+# FUNCIONES DE LISTAS
+
+def agregarProductoFactura(cursor, id_producto, id_factura, cantidad, monto):
+    cursor.execute("""INSERT INTO productosxfactura(id_producto, folio, cantidad, monto) VALUES (%s, %s, %s, %s);""", (id_producto, id_factura, cantidad, monto,))
