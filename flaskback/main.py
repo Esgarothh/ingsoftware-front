@@ -52,32 +52,11 @@ def signup():
 
 @app.route("/facturas")
 def facturas():
-    list_products = [
-        {
-            "codigo": "1",
-            "nombre": "Pizarra",
-            "desc": "Producto 1",
-            "precio": "100",
-            "total": "100",
-        },
-        {
-            "codigo": "2",
-            "nombre": "Borrador",
-            "desc": "Producto 2",
-            "precio": "300",
-            "total": "1200",
-        },
-        {
-            "codigo": "3",
-            "nombre": "Lapiz",
-            "desc": "Producto 3",
-            "precio": "500",
-            "total": "3500",
-        },
-    ]
+    productos = getAllProductos(cursor)
+    maximo = len(productos)
     folio = getLastFolio(cursor)
     fecha = datetime.today().strftime('%Y-%m-%d')
-    return render_template("facturas.html",list_products=list_products, folio=folio[0][0] + 1, fecha=fecha)
+    return render_template("facturas.html",productos=productos, folio=folio[0][0] + 1, fecha=fecha, maximo=maximo)
 
 
 @app.route("/cotizaciones")

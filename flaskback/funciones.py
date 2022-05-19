@@ -74,6 +74,10 @@ def getProductos(cursor, hoja):
     cursor.execute("""SELECT * FROM productos LIMIT 10 OFFSET %s;""", (limite,))
     return cursor.fetchall()
 
+def getAllProductos(cursor):
+    cursor.execute("""SELECT * FROM productos;""")
+    return cursor.fetchall()
+
 def getProductoById(cursor, id):
     cursor.execute("""SELECT * FROM productos WHERE productos id_producto = %s;""", (id,))
     return cursor.fetchall()
