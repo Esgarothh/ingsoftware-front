@@ -19,12 +19,16 @@ $(document).ready ( function () {
         var precio = datos[3];
         var cantidad = $("#Cantidad").val();
         var total = precio * cantidad;
-        var html = "<tr><td>"+id_prod+"</td><td>"+nombre+"</td><td>"+descripcion+"</td><td>"+precio+"</td><td>"+cantidad+"</td><td>"+total+"</td><td><button class='btn btn-danger btn-sm btn-eliminar-producto'><i class='fa fa-trash'></i></button></td></tr>";
+        var html = "<tr><td>"+id_prod+"</td><td>"+nombre+"</td><td>"+descripcion+"</td><td>"+precio+"</td><td>"+cantidad+"</td><td>"+total+"</td><td><button class='btn btn-danger btn-sm btn-eliminar-producto'><i class='fa fa-trash material-icons'>&#xE872;</i></button></td></tr>";
         //recibe Json con datos
         $("#tabla-productos").append(html);
         //reiniciar valores 
         $("#Cantidad").val("");
         $("#ModalProducto").modal( "hide");
+    });
+    //Eliminar producto de la tabla
+    $(document).on("click",".btn-eliminar-producto",function(){
+        $(this).closest("tr").remove();
     });
 });
 

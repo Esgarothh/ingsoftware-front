@@ -304,3 +304,18 @@ form .invoice-details .input-box{
 .btn:hover{
 	background-color: #1b4d3e;
 }
+
+.btn-danger{
+    background-color: #FF5252;
+    color: #fff;
+    padding: 10px;
+    border: 1px solid #FF5252;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.btn-danger:hover{
+    background-color: #b23e3d;
+}

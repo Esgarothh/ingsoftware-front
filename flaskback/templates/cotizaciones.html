@@ -4,6 +4,7 @@
 <head>
     <title>Cotizaciones</title>
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'welcome.css')}}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="../static/facturas.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -52,20 +53,13 @@
                             <th>Nombre</th>
                             <th>Descripción</th>
                             <th>Precio Unitario</th>
-                            <th>Total</th>
+                            <th>Cantidad</th>
+                            <th>Subtotal</th>
+                            <th>Accion</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {% for item in list_products %}
-                        <tr>
-                            <!--<td>{{ item.codigo}}</td>
-                            <td>{{ item.nombre }}</td>
-                            <td>{{ item.desc }}</td>
-                            <td>{{ item.cant }}</td>
-                            <td>{{ item.precio }}</td>
-                            <td>{{ item.total}}</td>-->
-                        </tr>
-                        {% endfor %}
+                    <tbody id="tabla-productos">
+                    
                     </tbody>
                 </table>
                 <button id="myBtn" class="btn btn-product" type="button">Añadir Producto</button>
@@ -86,10 +80,16 @@
 
                                     <select class="form-control select" id="CodigoProducto">
                                         <option disabled selected value> -- select an option -- </option>
-                                        {% for item in list_products %}
-                                        <option value="{{item.nombre}}">{{item.nombre}}</option>
+                                        {% for i in range(0,maximo,1) %}
+                                        <option id="{{ productos[i][0] }}" value="{{ productos[i] }}" >{{ productos[i][1] }}</option>
                                         {% endfor %}
                                     </select>
+                                    <div class="form-row">
+                                        <div class="form-group ">
+                                            <label>Cantidad:</label>
+                                            <input type="number" id="Cantidad" class="form-control" placeholder="" value="1" min="1">
+                                        </div>
+                                    </div>
 
                                 </div>
                             </div>
