@@ -91,9 +91,8 @@ def cotizaciones():
     productos = getAllProductos(cursor)
     maximo = len(productos)
     fecha = datetime.today().strftime('%Y-%m-%d')
-    #id_cotizacion = getLastIdCotizacion(cursor)
-    id_cotizacion = 1
-    return render_template("cotizaciones.html",productos=productos,maximo=maximo,id_cotizacion=id_cotizacion,fecha=fecha)
+    id_cotizacion = getLastIdCotizacion(cursor)
+    return render_template("cotizaciones.html",productos=productos,maximo=maximo,id_cotizacion=id_cotizacion[0][0]+1,fecha=fecha)
 
 
 @app.route("/crear_cotizacion", methods=["GET", "POST"])
