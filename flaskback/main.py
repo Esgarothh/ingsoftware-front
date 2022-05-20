@@ -16,10 +16,6 @@ from flask import (
     url_for,
 )
 import json
-import sys
-
-print('This is error output', file=sys.stderr)
-print('This is standard output', file=sys.stdout)
 
 up.uses_netloc.append("postgres")
 url = up.urlparse(
@@ -52,6 +48,7 @@ def login():
 def signup():
     return render_template("signup.html")
 
+#RUTAS DE FACTURAS
 
 @app.route("/facturas")
 def facturas():
@@ -60,14 +57,69 @@ def facturas():
     folio = getLastFolio(cursor)
     fecha = datetime.today().strftime('%Y-%m-%d')
     return render_template("facturas.html",productos=productos, folio=folio[0][0]+1, fecha=fecha, maximo=maximo)
-    
 
+
+@app.route("/crear_factura", methods=["GET", "POST"])
+def crear_factura():
+    if request.method == "POST":
+        folio = request.form.get("folio")
+        fecha_emision = datetime.today().strftime('%Y-%m-%d')
+        descripcion = request.form.get("descripcion_factura")
+        rut_cliente = request.form.get("rut_cliente")
+        nombre_cliente = request.form.get("nombre_cliente")
+        giro = request.form.get("giro")
+        productos_factura = request.form.get("productos_final").split(",")
+        monto_neto = 0
+        for i in range(int(len(productos_factura)/3)):
+            producto_nuevo = []
+            for j in range(3):
+                productos_factura[i*3+j] = int(productos_factura[i*3+j])
+                producto_nuevo.append(productos_factura[i*3+j])
+                if j+1 % 3 == 3:
+                    print(int(productos_factura[i*3+j]))
+                    monto_neto += int(productos_factura[i*3+j])
+            agregarProductoFactura(cursor, producto_nuevo[0], folio, producto_nuevo[1], producto_nuevo[2])
+        print(fecha_emision, descripcion, monto_neto, rut_cliente, nombre_cliente, giro, productos_factura)
+        createCliente(cursor, rut_cliente, nombre_cliente, giro)
+        CreateFactura(cursor, rut_cliente, descripcion, fecha_emision, monto_neto)
+        return redirect("/verfacturas")
+
+#RUTAS DE COTIZACIONES
 
 @app.route("/cotizaciones")
 def cotizaciones():
     productos = getAllProductos(cursor)
     maximo = len(productos)
-    return render_template("cotizaciones.html",productos=productos,maximo=maximo)
+    fecha = datetime.today().strftime('%Y-%m-%d')
+    #id_cotizacion = getLastIdCotizacion(cursor)
+    id_cotizacion = 1
+    return render_template("cotizaciones.html",productos=productos,maximo=maximo,id_cotizacion=id_cotizacion,fecha=fecha)
+
+
+@app.route("/crear_cotizacion", methods=["GET", "POST"])
+def crear_cotizacion():
+    if request.method == "POST":
+        id_cotizacion = request.form.get("id_cotizacion")
+        fecha_emision = datetime.today().strftime('%Y-%m-%d')
+        descripcion = request.form.get("descripcion_cotizacion")
+        rut_cliente = request.form.get("rut_cliente")
+        nombre_cliente = request.form.get("nombre_cliente")
+        giro = request.form.get("giro")
+        productos_cotizacion = request.form.get("productos_final").split(",")
+        monto_neto = 0
+        for i in range(int(len(productos_cotizacion)/3)):
+            producto_nuevo = []
+            for j in range(3):
+                productos_cotizacion[i*3+j] = int(productos_cotizacion[i*3+j])
+                producto_nuevo.append(productos_cotizacion[i*3+j])
+                if j+1 % 3 == 3:
+                    print(int(productos_cotizacion[i*3+j]))
+                    monto_neto += int(productos_cotizacion[i*3+j])
+            agregarProductoCotizacion(cursor, producto_nuevo[0], id_cotizacion, producto_nuevo[1], producto_nuevo[2])
+        print(fecha_emision, descripcion, monto_neto, rut_cliente, nombre_cliente, giro, productos_cotizacion)
+        createCliente(cursor, rut_cliente, nombre_cliente, giro)
+        createCotizacion(cursor, descripcion, rut_cliente, fecha_emision, monto_neto)
+        return redirect("/vercotizaciones")
 
 
 @app.route("/productos")
@@ -113,31 +165,6 @@ def welcome():
         # return render_template("camara.html", name=person["name"], email = person["email"])
 
 
-@app.route("/crear_factura", methods=["GET", "POST"])
-def crear_factura():
-    if request.method == "POST":
-        folio = request.form.get("folio")
-        fecha_emision = datetime.today().strftime('%Y-%m-%d')
-        descripcion = request.form.get("descripcion_factura")
-        rut_cliente = request.form.get("rut_cliente")
-        nombre_cliente = request.form.get("nombre_cliente")
-        giro = request.form.get("giro")
-        productos_factura = request.form.get("productos_final").split(",")
-        monto_neto = 0
-        for i in range(int(len(productos_factura)/3)):
-            producto_nuevo = []
-            for j in range(3):
-                productos_factura[i*3+j] = int(productos_factura[i*3+j])
-                producto_nuevo.append(productos_factura[i*3+j])
-                if j+1 % 3 == 3:
-                    print(int(productos_factura[i*3+j]))
-                    monto_neto += int(productos_factura[i*3+j])
-            agregarProductoFactura(cursor, producto_nuevo[0], folio, producto_nuevo[1], producto_nuevo[2])
-        print(fecha_emision, descripcion, monto_neto, rut_cliente, nombre_cliente, giro, productos_factura)
-        createCliente(cursor, rut_cliente, nombre_cliente, giro)
-        CreateFactura(cursor, rut_cliente, descripcion, fecha_emision, monto_neto)
-        return redirect("/verfacturas")
-
 @app.route("/editar_producto", methods=["GET", "POST"])
 def editar_producto():
     if request.method == "POST":
@@ -156,19 +183,6 @@ def delete_producto():
         deleteProducto(cursor, id)
         return redirect("/verproductos")
 
-
-
-@app.route("/crear_cotizacion", methods=["GET", "POST"])
-def crear_cotizacion():
-    if request.method == "POST":
-        #precio = request.form.get("product_price")
-        #cliente = request.form.get("rut_cliente")
-        #descripcion = request.form.get("product_description")
-        #fecha_emision = datetime.today().strftime('%Y-%m-%d')
-        #monto_neto = request.form.get("product_price")
-        #print(precio)
-        #CreateFactura(cursor, cliente, descripcion, fecha_emision, monto_neto)
-        return redirect("/verfacturas")
 
 @app.route("/crear_producto", methods=["GET", "POST"])
 def crear_producto():
@@ -207,7 +221,14 @@ def verfacturas():
 def vercotizaciones():
     cotizaciones = getCotizaciones(cursor, 0)
     maximo = len(cotizaciones)
-    return render_template("vercotizaciones.html",lista_cotizaciones=cotizaciones,maximo=maximo)
+    nombres = []
+    for x in cotizaciones:
+        lista = list(x)
+        cliente = getClienteByID(cursor, lista[2])
+        nombres.append(cliente[0][0])
+    cotizaciones = getCotizaciones(cursor, 0)
+    maximo = len(cotizaciones)
+    return render_template("vercotizaciones.html",lista_cotizaciones=cotizaciones,maximo=maximo,clientes=nombres)
 
 
 @app.route("/verproductos", methods=["POST", "GET"])
