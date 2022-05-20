@@ -22,29 +22,36 @@
                 <h1>Crear Cotizacion</h1>
             </div>
             <form action="/crear_cotizacion" method="POST">
+                <div class="invoice-details">
+                        <input type="hidden"  name="id_cotizacion" id="id_cotizacion" placeholder="{{id_cotizacion}}" value="{{id_cotizacion}}">
+                    <div class="input-box">
+                        <span class="details">Fecha</span>
+                        <input disabled name="date" id="date" value="{{fecha}}" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Descripción</span>
+                        <input type="text" name="descripcion_cotizacion" id="descripcion_cotizacion" placeholder="Descripción">
+                    </div>
+                </div>
+                <div id="div_productos">
+                    <input type='hidden' name='productos_final' value=''>
+                </div>
                 <h2>Datos del Cliente</h2>
                 <div class="invoice-details">
                     <div class="input-box">
+                        <span class="details">Rut del Cliente</span>
+                        <input type="text" name="rut_cliente" id="rut_cliente" placeholder="Ej: 123456789" required>
+                    </div>
+                    <div class="input-box">
                         <span class="details">Nombre del Cliente</span>
-                        <input type="text" name="customer_name" id="customer_name" placeholder="Julio Perez" required>
+                        <input type="text" name="nombre_cliente" id="nombre_cliente" placeholder="Empresa XY" required>
                     </div>
                     <div class="input-box">
-                        <span class="details">Dirección</span>
-                        <input type="text" name="customer_address" id="customer_address"
-                            placeholder="Armando villanueva 5629" required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Teléfono</span>
-                        <input type="number" name="customer_phone" id="customer_phone" placeholder="56 9 1234 5678"
-                            required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Correo</span>
-                        <input type="email" name="customer_email" id="customer_email"
-                            placeholder="Julio.Perez@gmail.com" required>
+                        <span class="details">Giro</span>
+                        <input type="text" name="giro" id="giro" placeholder="Giro de empresa" required>
                     </div>
                 </div>
-
+                
                 <h2>Datos del Producto</h2>
                 <table class="content-table">
                     <thead>

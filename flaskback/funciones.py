@@ -27,11 +27,15 @@ def getFacturasByFecha(cursor, fecha1, fecha2):
 # FUNCIONES COTIZACIONES
 
 def createCotizacion(cursor, descripcion, cliente_id, fecha, total):
-    cursor.execute("""INSERT INTO facturas(descripcion, cliente_id, fecha, total) VALUES (%s, %s, %s, %s);""", (descripcion, cliente_id, fecha, total))
+    cursor.execute("""INSERT INTO cotizaciones(descripcion, cliente_id, fecha, total) VALUES (%s, %s, %s, %s);""", (descripcion, cliente_id, fecha, total))
 
 def getCotizaciones(cursor, hoja):
     limite = (hoja * 10)
     cursor.execute("""SELECT * FROM cotizaciones LIMIT 10 OFFSET %s;""", (limite,))
+    return cursor.fetchall()
+
+def getLastIdCotizacion(cursor):
+    cursor.execute("""SELECT id_cotizacion FROM cotizaciones ORDER BY id_cotizacion DESC LIMIT 1;""")
     return cursor.fetchall()
 
 def getCotizacionesById(cursor, id):
@@ -106,7 +110,11 @@ def createCliente(cursor, rut_cliente, nombre_cliente, giro):
 def getClienteByID(cursor, id):
     cursor.execute("""SELECT nombre_cliente FROM clientes WHERE rut_cliente = %s;""", (id,))
     return cursor.fetchall()
+
 # FUNCIONES DE LISTAS
 
 def agregarProductoFactura(cursor, id_producto, id_factura, cantidad, monto):
     cursor.execute("""INSERT INTO productosxfactura(id_producto, folio, cantidad, monto) VALUES (%s, %s, %s, %s);""", (id_producto, id_factura, cantidad, monto,))
+    
+def agregarProductoCotizacion(cursor, id_producto, id_cotizacion, cantidad, monto):
+    cursor.execute("""INSERT INTO productosxcotizacion(id_producto, id_cotizacion, cantidad, monto) VALUES (%s, %s, %s, %s);""", (id_producto, id_cotizacion, cantidad, monto,))
