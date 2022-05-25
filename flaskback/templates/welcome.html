@@ -4,9 +4,12 @@
 <head>
 	<title>Factura</title>
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'welcome.css')}}">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" type="text/css" href="../static/welcome.css">
-	<link rel="stylesheet" type="text/css" href="../static/facturas.css">
-
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -16,44 +19,16 @@
 	<section>
 		<div class="content">
 			<div class="info">
-				<h2>Bienvenido<br>
-					<span>Sistema de facturación</span>
-				</h2>
-				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita, asperiores unde, modi maiores
-					itaque quam sit, dicta saepe dolorum perspiciatis nihil! Libero distinctio minus aspernatur
-					praesentium rem ad beatae atque.</p>
-				<h1>{{piece | safe}}</h1>
+				<h2>Bienvenido a tu sistema de facturación <i class="material-icons">&#xf0c5;</i></h2>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum veritatis nulla illum, ipsam error, facere ipsa corrupti voluptates aliquid eos mollitia nostrum. Dolores blanditiis cumque tempore aspernatur ducimus sed doloribus.</p>
+					
 				<a href="#" class="info-btn">Más Información</a>
 			</div>
-			<table class="content-table">
-				<thead>
-					<tr>
-						<th>Folio</th>
-						<th>Cliente</th>
-						<th>Fecha Emision</th>
-						<th>Monto</th>
-						<th>Descripción</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for i in range(0,maximo,1) %}
-					<tr>
-						<td>{{ my_list[i][0] }}</td>
-						<td>{{ my_list[i][1] }}</td>
-						<td>{{ my_list[i][2] }}</td>
-						<td>{{ my_list[i][3] }}</td>
-						<td>{{ my_list[i][4] }}</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-
-
 		</div>
 
 
 
-		<div class="main">
+		<!--<div class="main">
 			<h1 class="nombre">Hi, {{name}}</h1>
 			<hr style="width: 30%">
 			<h1 class="name">{{compraText}}</h1>
@@ -66,7 +41,7 @@
 				<i class="fas fa-eye"> VER</i>
 
 			</button>
-		</div>
+		</div>-->
 	</section>
 
 	{% endblock %}

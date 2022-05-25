@@ -1,19 +1,31 @@
 <!doctype html>
-<title>{% block title %}{% endblock %} - Flaskr</title>x
+<title>{% block title %}{% endblock %} - Flaskr</title>
 <link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'welcome.css')}}">
-<link rel="stylesheet" type="text/css" href="{{url_for('static', filename = 'facturas.css')}}">
 <!-- CSS only -->
 <header class="navbar navbar-light bg-light">
 
 
     <h2><a href="/welcome" class="logo">Menu</a></h2>
     <div class="navigation">
-        <a href="/facturas">Crear factura</a>
-        <a href="/cotizaciones">Crear cotizacion</a>
-        <a href="/productos">Añadir producto</a>
-        <a href="/verfacturas">Ver facturas</a>
-        <a href="/vercotizaciones">Ver Cotizaciones</a>
-        <a href="/verproductos">Ver productos</a>
+        <ul>
+            <li><a href="#"><i class="fa fa-user"></i>Factura</a>
+            <div class="sub-menu-1">
+                <ul>
+                    <li><a href="/facturas">Crear Factura</a></li>
+                    <li><a href="/verfacturas">Ver factura</a></li>
+                </ul>
+            </div>
+            </li>
+            <li><a href="#"><i class="fa fa-user"></i>Cotizacion</a>
+                <div class="sub-menu-1">
+                    <ul>
+                        <li><a href="/cotizaciones">Crear Cotizacion</a></li>
+                        <li><a href="/vercotizaciones">Ver Cotizaciones</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="/verproductos"><i class="fa fa-user"></i>Producto</a></li>
+        </ul>
     </div>
 
 </header>

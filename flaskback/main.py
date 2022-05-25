@@ -1,6 +1,9 @@
 import os
 from pickle import TRUE
 import json
+from datetime import datetime
+
+from pydoc import describe
 import urllib.parse as up
 import psycopg2
 from funciones import *
@@ -16,7 +19,6 @@ from flask import (
     url_for,
 )
 import json
-
 
 up.uses_netloc.append("postgres")
 url = up.urlparse(
@@ -52,15 +54,77 @@ def login():
 def signup():
     return render_template("signup.html")
 
+#RUTAS DE FACTURAS
 
 @app.route("/facturas")
 def facturas():
-    return render_template("facturas.html")
+    productos = getAllProductos(cursor)
+    maximo = len(productos)
+    folio = getLastFolio(cursor)
+    fecha = datetime.today().strftime('%Y-%m-%d')
+    return render_template("facturas.html",productos=productos, folio=folio[0][0]+1, fecha=fecha, maximo=maximo)
 
+
+@app.route("/crear_factura", methods=["GET", "POST"])
+def crear_factura():
+    if request.method == "POST":
+        folio = request.form.get("folio")
+        fecha_emision = datetime.today().strftime('%Y-%m-%d')
+        descripcion = request.form.get("descripcion_factura")
+        rut_cliente = request.form.get("rut_cliente")
+        nombre_cliente = request.form.get("nombre_cliente")
+        giro = request.form.get("giro")
+        productos_factura = request.form.get("productos_final").split(",")
+        monto_neto = 0
+        for i in range(int(len(productos_factura)/3)):
+            producto_nuevo = []
+            for j in range(3):
+                productos_factura[i*3+j] = int(productos_factura[i*3+j])
+                producto_nuevo.append(productos_factura[i*3+j])
+                if j+1 % 3 == 3:
+                    print(int(productos_factura[i*3+j]))
+                    monto_neto += int(productos_factura[i*3+j])
+            agregarProductoFactura(cursor, producto_nuevo[0], folio, producto_nuevo[1], producto_nuevo[2])
+        print(fecha_emision, descripcion, monto_neto, rut_cliente, nombre_cliente, giro, productos_factura)
+        createCliente(cursor, rut_cliente, nombre_cliente, giro)
+        CreateFactura(cursor, rut_cliente, descripcion, fecha_emision, monto_neto)
+        return redirect("/verfacturas")
+
+#RUTAS DE COTIZACIONES
 
 @app.route("/cotizaciones")
 def cotizaciones():
-    return render_template("cotizaciones.html")
+    productos = getAllProductos(cursor)
+    maximo = len(productos)
+    fecha = datetime.today().strftime('%Y-%m-%d')
+    id_cotizacion = getLastIdCotizacion(cursor)
+    return render_template("cotizaciones.html",productos=productos,maximo=maximo,id_cotizacion=id_cotizacion[0][0]+1,fecha=fecha)
+
+
+@app.route("/crear_cotizacion", methods=["GET", "POST"])
+def crear_cotizacion():
+    if request.method == "POST":
+        id_cotizacion = request.form.get("id_cotizacion")
+        fecha_emision = datetime.today().strftime('%Y-%m-%d')
+        descripcion = request.form.get("descripcion_cotizacion")
+        rut_cliente = request.form.get("rut_cliente")
+        nombre_cliente = request.form.get("nombre_cliente")
+        giro = request.form.get("giro")
+        productos_cotizacion = request.form.get("productos_final").split(",")
+        monto_neto = 0
+        for i in range(int(len(productos_cotizacion)/3)):
+            producto_nuevo = []
+            for j in range(3):
+                productos_cotizacion[i*3+j] = int(productos_cotizacion[i*3+j])
+                producto_nuevo.append(productos_cotizacion[i*3+j])
+                if j+1 % 3 == 3:
+                    print(int(productos_cotizacion[i*3+j]))
+                    monto_neto += int(productos_cotizacion[i*3+j])
+            agregarProductoCotizacion(cursor, producto_nuevo[0], id_cotizacion, producto_nuevo[1], producto_nuevo[2])
+        print(fecha_emision, descripcion, monto_neto, rut_cliente, nombre_cliente, giro, productos_cotizacion)
+        createCliente(cursor, rut_cliente, nombre_cliente, giro)
+        createCotizacion(cursor, descripcion, rut_cliente, fecha_emision, monto_neto)
+        return redirect("/vercotizaciones")
 
 
 @app.route("/productos")
@@ -86,29 +150,6 @@ def welcome():
     if True:
         piece = " <table> <thead><tr><th>Name</th><th>Description</th></tr></thead> <tbody> <tr><td>Name1</td><td>Description1</td></tr> <tr><td>Name2</td><td>Description2</td></tr> <tr><td>Name3</td><td>Description3</td></tr> </tbody> </table>"
 
-        my_list = [
-            {
-                "folio": "2",
-                "cliente": "yyy",
-                "fechaemision": "zzz",
-                "monto": "4990",
-                "descripcion": "descripcion",
-            },
-            {
-                "folio": "3",
-                "cliente": "591293",
-                "fechaemision": "zzz",
-                "monto": "5990",
-                "descripcion": "descripcion",
-            },
-            {
-                "folio": "4",
-                "cliente": "aguasandinas",
-                "fechaemision": "zzz",
-                "monto": "4990",
-                "descripcion": "descripcion",
-            },
-        ]
 
         filas = getFacturas(cursor, 0)
         maximo = len(filas)
@@ -129,9 +170,10 @@ def welcome():
         # return render_template("camara.html", name=person["name"], email = person["email"])
 
 
-@app.route("/crear_factura", methods=["GET", "POST"])
-def crear_factura():
+@app.route("/editar_producto", methods=["GET", "POST"])
+def editar_producto():
     if request.method == "POST":
+<<<<<<< HEAD
         precio = request.form.get("product_price")
         cliente = request.form.get("rut_cliente")
         descripcion = request.form.get("product_description")
@@ -162,6 +204,32 @@ def testing():
     test["n_productos"] = 1
     test = json.dumps(test)
     return render_template("pdf.html", test=test)
+=======
+        id = request.form.get("edit_id")
+        nombre = request.form.get("edit_nombre")
+        descripcion = request.form.get("edit_descripcion")
+        precio = request.form.get("edit_precio")
+        updateProducto(cursor, id, nombre, descripcion, precio)
+        return redirect("/verproductos")
+
+@app.route("/delete_producto", methods=["GET", "POST"])
+def delete_producto():
+    if request.method == "POST":
+        id = request.form.get("delete_id")
+        print(id)
+        deleteProducto(cursor, id)
+        return redirect("/verproductos")
+
+
+@app.route("/crear_producto", methods=["GET", "POST"])
+def crear_producto():
+    if request.method == "POST":
+        nombre = request.form.get("nombre")
+        descripcion = request.form.get("descripcion")
+        precio = request.form.get("precio")
+        createProducto(cursor, nombre, descripcion, precio)
+        return redirect("/verproductos")
+>>>>>>> aa00d483fa232371c5a5bb7dd6c10c48eba995fb
 
 # If someone clicks on login, they are redirected to /result
 
@@ -179,17 +247,35 @@ def result():
 # If someone clicks on register, they are redirected to /register
 @app.route("/verfacturas", methods=["POST", "GET"])
 def verfacturas():
-    return render_template("verfacturas.html")
+    facturas = getFacturas(cursor, 0)
+    maximo = len(facturas)
+    nombres = []
+    for x in facturas:
+        lista = list(x)
+        cliente = getClienteByID(cursor, lista[1])
+        nombres.append(cliente[0][0])
+    return render_template("verfacturas.html",lista_facturas=facturas,maximo=maximo,clientes=nombres)
 
 
 @app.route("/vercotizaciones", methods=["POST", "GET"])
 def vercotizaciones():
-    return render_template("vercotizaciones.html")
+    cotizaciones = getCotizaciones(cursor, 0)
+    maximo = len(cotizaciones)
+    nombres = []
+    for x in cotizaciones:
+        lista = list(x)
+        cliente = getClienteByID(cursor, lista[2])
+        nombres.append(cliente[0][0])
+    cotizaciones = getCotizaciones(cursor, 0)
+    maximo = len(cotizaciones)
+    return render_template("vercotizaciones.html",lista_cotizaciones=cotizaciones,maximo=maximo,clientes=nombres)
 
 
 @app.route("/verproductos", methods=["POST", "GET"])
 def verproductos():
-    return render_template("verproductos.html")
+    productos = getProductos(cursor, 0)
+    maximo = len(productos)
+    return render_template("verproductos.html",productos = productos, maximo=maximo)
 
 
 # If someone clicks on register, they are redirected to /register
@@ -198,10 +284,15 @@ def register():
     return redirect(url_for("welcome"))
 
 
+<<<<<<< HEAD
 if __name__ == "__main__":
 
     app.run(host="0.0.0.0", debug=True)
     # app.run(ssl_context=('cert.pem', 'key.pem'))
+=======
+if __name__ == '__main__':
+    app.run(host='0.0.0.0',debug=True)
+>>>>>>> aa00d483fa232371c5a5bb7dd6c10c48eba995fb
 
 conn.commit()
 conn.close()
