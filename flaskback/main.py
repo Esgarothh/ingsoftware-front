@@ -1,4 +1,6 @@
 import os
+from pickle import TRUE
+import json
 import urllib.parse as up
 import psycopg2
 from funciones import *
@@ -34,9 +36,12 @@ app = Flask(__name__)  # Initialze flask constructor
 app.secret_key = "super secret key2"
 
 # Initialze person as dictionary
-person = {"is_logged_in": False, "name": "", "email": "", "uid": "", "estadoCompra": ""}
+person = {"is_logged_in": False, "name": "",
+          "email": "", "uid": "", "estadoCompra": ""}
 
 # Login
+
+
 @app.route("/")
 def login():
     return render_template("login.html")
@@ -132,12 +137,35 @@ def crear_factura():
         descripcion = request.form.get("product_description")
         fecha_emision = "2020-01-01"
         monto_neto = request.form.get("product_price")
+        producto = request.form.get("product_name")
+        test = []
+        test.append(precio)
+        test.append(cliente)
+        test.append(descripcion)
+        test.append(fecha_emision)
+        test.append(monto_neto)
         print(precio)
-        CreateFactura(cursor, 999, cliente, descripcion, fecha_emision, monto_neto)
-        return redirect("/verfacturas")
+        CreateFactura(cursor, cliente+"1", cliente,
+                      descripcion, fecha_emision, monto_neto)
+        return render_template("pdf.html", test=json.dumps(test))
 
+
+@app.route("/testing")
+def testing():
+    test = {}
+    test["folio"] = "12345"
+    test["cliente"] = "12345678-k"
+    test["producto"] = "lavadora"
+    test["precio"] = 100
+    test["descripcion"] = "descripcion de prueba de producto lavadora"
+    test["cantidad"] = 1
+    test["n_productos"] = 1
+    test = json.dumps(test)
+    return render_template("pdf.html", test=test)
 
 # If someone clicks on login, they are redirected to /result
+
+
 @app.route("/result", methods=["POST", "GET"])
 def result():
     if request.method == "POST":  # Only if data has been posted
@@ -172,7 +200,7 @@ def register():
 
 if __name__ == "__main__":
 
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", debug=True)
     # app.run(ssl_context=('cert.pem', 'key.pem'))
 
 conn.commit()
