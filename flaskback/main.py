@@ -172,24 +172,13 @@ def welcome():
 
 @app.route("/editar_producto", methods=["GET", "POST"])
 def editar_producto():
-    if request.method == "POST":
-<<<<<<< HEAD
-        precio = request.form.get("product_price")
-        cliente = request.form.get("rut_cliente")
-        descripcion = request.form.get("product_description")
-        fecha_emision = "2020-01-01"
-        monto_neto = request.form.get("product_price")
-        producto = request.form.get("product_name")
-        test = []
-        test.append(precio)
-        test.append(cliente)
-        test.append(descripcion)
-        test.append(fecha_emision)
-        test.append(monto_neto)
-        print(precio)
-        CreateFactura(cursor, cliente+"1", cliente,
-                      descripcion, fecha_emision, monto_neto)
-        return render_template("pdf.html", test=json.dumps(test))
+      id = request.form.get("edit_id")
+        nombre = request.form.get("edit_nombre")
+        descripcion = request.form.get("edit_descripcion")
+        precio = request.form.get("edit_precio")
+        updateProducto(cursor, id, nombre, descripcion, precio)
+        return redirect("/verproductos")
+
 
 
 @app.route("/testing")
@@ -204,13 +193,7 @@ def testing():
     test["n_productos"] = 1
     test = json.dumps(test)
     return render_template("pdf.html", test=test)
-=======
-        id = request.form.get("edit_id")
-        nombre = request.form.get("edit_nombre")
-        descripcion = request.form.get("edit_descripcion")
-        precio = request.form.get("edit_precio")
-        updateProducto(cursor, id, nombre, descripcion, precio)
-        return redirect("/verproductos")
+      
 
 @app.route("/delete_producto", methods=["GET", "POST"])
 def delete_producto():
@@ -229,7 +212,6 @@ def crear_producto():
         precio = request.form.get("precio")
         createProducto(cursor, nombre, descripcion, precio)
         return redirect("/verproductos")
->>>>>>> aa00d483fa232371c5a5bb7dd6c10c48eba995fb
 
 # If someone clicks on login, they are redirected to /result
 
@@ -284,15 +266,8 @@ def register():
     return redirect(url_for("welcome"))
 
 
-<<<<<<< HEAD
-if __name__ == "__main__":
-
-    app.run(host="0.0.0.0", debug=True)
-    # app.run(ssl_context=('cert.pem', 'key.pem'))
-=======
 if __name__ == '__main__':
     app.run(host='0.0.0.0',debug=True)
->>>>>>> aa00d483fa232371c5a5bb7dd6c10c48eba995fb
 
 conn.commit()
 conn.close()
