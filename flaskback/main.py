@@ -1,3 +1,6 @@
+import os
+from pickle import TRUE
+import json
 from datetime import datetime
 
 from pydoc import describe
@@ -35,9 +38,12 @@ app = Flask(__name__)  # Initialze flask constructor
 app.secret_key = "super secret key2"
 
 # Initialze person as dictionary
-person = {"is_logged_in": False, "name": "", "email": "", "uid": "", "estadoCompra": ""}
+person = {"is_logged_in": False, "name": "",
+          "email": "", "uid": "", "estadoCompra": ""}
 
 # Login
+
+
 @app.route("/")
 def login():
     return render_template("login.html")
@@ -91,9 +97,8 @@ def cotizaciones():
     productos = getAllProductos(cursor)
     maximo = len(productos)
     fecha = datetime.today().strftime('%Y-%m-%d')
-    #id_cotizacion = getLastIdCotizacion(cursor)
-    id_cotizacion = 1
-    return render_template("cotizaciones.html",productos=productos,maximo=maximo,id_cotizacion=id_cotizacion,fecha=fecha)
+    id_cotizacion = getLastIdCotizacion(cursor)
+    return render_template("cotizaciones.html",productos=productos,maximo=maximo,id_cotizacion=id_cotizacion[0][0]+1,fecha=fecha)
 
 
 @app.route("/crear_cotizacion", methods=["GET", "POST"])
@@ -167,13 +172,29 @@ def welcome():
 
 @app.route("/editar_producto", methods=["GET", "POST"])
 def editar_producto():
-    if request.method == "POST":
         id = request.form.get("edit_id")
         nombre = request.form.get("edit_nombre")
         descripcion = request.form.get("edit_descripcion")
         precio = request.form.get("edit_precio")
         updateProducto(cursor, id, nombre, descripcion, precio)
         return redirect("/verproductos")
+
+
+@app.route("/welcome", methods=["GET"])
+@app.route("/testing")
+def testing():
+    args = request.args
+    test = {}
+    test["folio"] = "12345"
+    test["cliente"] = "12345678-k"
+    test["producto"] = "lavadora"
+    test["precio"] = 100
+    test["descripcion"] = "descripcion de prueba de producto lavadora"
+    test["cantidad"] = 1
+    test["n_productos"] = 1
+    test = json.dumps(test)
+    return render_template("pdf.html", test=test)
+      
 
 @app.route("/delete_producto", methods=["GET", "POST"])
 def delete_producto():
@@ -194,6 +215,8 @@ def crear_producto():
         return redirect("/verproductos")
 
 # If someone clicks on login, they are redirected to /result
+
+
 @app.route("/result", methods=["POST", "GET"])
 def result():
     if request.method == "POST":  # Only if data has been posted

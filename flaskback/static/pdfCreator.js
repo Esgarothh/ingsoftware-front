@@ -1,5 +1,4 @@
 var filesLoaded = 0;
-
 var files = {
 	img1: {
 		url: "https://pbs.twimg.com/profile_images/1083412130307756034/O4c9pith_400x400.jpg",
@@ -49,10 +48,10 @@ function download() {
 	window.URL.revokeObjectURL(url);
 }
 var doc = new PDFDocument({ size: "A4", margin: 50 });
-
-function mostrarpdf() {
+var datos;
+function mostrarpdf(data) {
 	var stream = doc.pipe(blobStream());
-
+	datos = JSON.parse(data);
 	for (var file in files) {
 		files[file].xhr = new XMLHttpRequest();
 		files[file].xhr.onreadystatechange = function () {
@@ -95,7 +94,7 @@ function loadedFile(xhr) {
 
 function showPDF() {
 	//generador INSIDE
-
+	console.log(datos);
 	generateHeader(doc);
 	generateCustomerInformation(doc, invoice);
 	generateInvoiceTable(doc, invoice);
@@ -103,6 +102,7 @@ function showPDF() {
 
 	doc.end();
 }
+
 // ---------------------------------------------------------------------------------- FUNCIONES
 
 function generateHeader(doc) {
@@ -110,7 +110,7 @@ function generateHeader(doc) {
 
 		.fillColor("#444444")
 		.fontSize(20)
-		.text("Pizarras Grecia", 110, 57)
+		.text("Pizarras Grecia - Manufacturas", 110, 57)
 		.fontSize(10)
 		.text("Manufacturas Grecia.", 200, 50, { align: "right" })
 		.text("Sierra Bella 2667", 200, 65, { align: "right" })
@@ -129,7 +129,7 @@ function generateCustomerInformation(doc, invoice) {
 		.fontSize(10)
 		.text("N° Factura:", 50, customerInformationTop)
 		.font("Helvetica-Bold")
-		.text(invoice.invoice_nr, 150, customerInformationTop)
+		.text(datos.folio, 150, customerInformationTop)
 		.font("Helvetica")
 		.text("Fecha:", 50, customerInformationTop + 15)
 		.text(formatDate(new Date()), 150, customerInformationTop + 15)
@@ -141,15 +141,11 @@ function generateCustomerInformation(doc, invoice) {
 		)
 
 		.font("Helvetica-Bold")
-		.text(invoice.shipping.name, 300, customerInformationTop)
+		.text(datos.cliente, 300, customerInformationTop)
 		.font("Helvetica")
-		.text(invoice.shipping.address, 300, customerInformationTop + 15)
+		.text("direccion generica", 300, customerInformationTop + 15)
 		.text(
-			invoice.shipping.city +
-				", " +
-				invoice.shipping.state +
-				", " +
-				invoice.shipping.country,
+			"providencia" + ", " + "santiago" + ", " + "chile",
 			300,
 			customerInformationTop + 30
 		)
@@ -175,17 +171,17 @@ function generateInvoiceTable(doc, invoice) {
 	generateHr(doc, invoiceTableTop + 20);
 	doc.font("Helvetica");
 
-	for (i = 0; i < invoice.items.length; i++) {
-		const item = invoice.items[i];
+	for (i = 0; i < datos.n_productos; i++) {
+		const item = i;
 		const position = invoiceTableTop + (i + 1) * 30;
 		generateTableRow(
 			doc,
 			position,
-			item.item,
-			item.description,
-			formatCurrency(item.amount / item.quantity),
-			item.quantity,
-			formatCurrency(item.amount)
+			datos.producto,
+			datos.descripcion,
+			formatCurrency(datos.precio / datos.cantidad),
+			datos.cantidad,
+			formatCurrency(datos.precio)
 		);
 
 		generateHr(doc, position + 20);
