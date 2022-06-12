@@ -172,7 +172,7 @@ def welcome():
 
 @app.route("/editar_producto", methods=["GET", "POST"])
 def editar_producto():
-      id = request.form.get("edit_id")
+        id = request.form.get("edit_id")
         nombre = request.form.get("edit_nombre")
         descripcion = request.form.get("edit_descripcion")
         precio = request.form.get("edit_precio")
@@ -180,9 +180,10 @@ def editar_producto():
         return redirect("/verproductos")
 
 
-
+@app.route("/welcome", methods=["GET"])
 @app.route("/testing")
 def testing():
+    args = request.args
     test = {}
     test["folio"] = "12345"
     test["cliente"] = "12345678-k"
