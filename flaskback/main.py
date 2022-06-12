@@ -191,16 +191,16 @@ def testing():
     primer = productos[0]   
     idprod = primer[0]
     print(idprod)
-    prod = getProductoById(cursor,idprod)
+    prod = getProductoById(cursor,idprod)[0]
     
     print(prod)
     data = data[0]
     test = {}
     test["folio"] = data[0]        # folio 0 idcliente 1 descripcion 2 fechaemi 3 montoneto 4
     test["cliente"] = data[1]       # 0 folio 1 idproducto 2 cantidad 3 monto   
-    test["producto"] = primer[1]        # id nombre descripcion costo
+    test["producto"] = prod[1]        # id nombre descripcion costo
     test["precio"] = primer[3]
-    test["descripcion"] = primer[2]
+    test["descripcion"] = prod[2]
     test["cantidad"] = 1
     test["n_productos"] = 1
     test = json.dumps(test)
