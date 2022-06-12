@@ -183,13 +183,17 @@ def editar_producto():
 @app.route("/welcome", methods=["GET"])
 @app.route("/testing")
 def testing():
-    args = request.args
+    folio = request.args.get('folio')
+    print(folio)
+    data = getFacturasByFolio(cursor, folio)
+    print(data)
+    data = data[0]
     test = {}
-    test["folio"] = "12345"
-    test["cliente"] = "12345678-k"
+    test["folio"] = data[0]        # folio 0 idcliente 1 descripcion 2 fechaemi 3 montoneto 4
+    test["cliente"] = data[1]
     test["producto"] = "lavadora"
-    test["precio"] = 100
-    test["descripcion"] = "descripcion de prueba de producto lavadora"
+    test["precio"] = data[4]
+    test["descripcion"] = data[2]
     test["cantidad"] = 1
     test["n_productos"] = 1
     test = json.dumps(test)
