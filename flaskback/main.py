@@ -217,15 +217,27 @@ def editar_producto():
     updateProducto(cursor, id, nombre, descripcion, precio)
     return redirect("/verproductos")
 
-
+@app.route("/welcome", methods=["GET"])
 @app.route("/testing")
 def testing():
+    folio = request.args.get('folio')
+    print(folio)
+    data = getFacturasByFolio(cursor, folio)
+    productos = getProductosByFolioFactura(cursor,folio)
+    print(productos)
+    primer = productos[0]   
+    idprod = primer[0]
+    print(idprod)
+    prod = getProductoById(cursor,idprod)[0]
+    
+    print(prod)
+    data = data[0]
     test = {}
-    test["folio"] = "12345"
-    test["cliente"] = "12345678-k"
-    test["producto"] = "lavadora"
-    test["precio"] = 100
-    test["descripcion"] = "descripcion de prueba de producto lavadora"
+    test["folio"] = data[0]        # folio 0 idcliente 1 descripcion 2 fechaemi 3 montoneto 4
+    test["cliente"] = data[1]       # 0 folio 1 idproducto 2 cantidad 3 monto   
+    test["producto"] = prod[1]        # id nombre descripcion costo
+    test["precio"] = primer[3]
+    test["descripcion"] = prod[2]
     test["cantidad"] = 1
     test["n_productos"] = 1
     test = json.dumps(test)

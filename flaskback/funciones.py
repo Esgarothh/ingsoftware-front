@@ -74,17 +74,20 @@ def getProductos(cursor, hoja):
     limite = (hoja * 10)
     cursor.execute("""SELECT * FROM productos LIMIT 10 OFFSET %s;""", (limite,))
     return cursor.fetchall()
+def getProductosByFolioFactura(cursor, id):
+    cursor.execute("""SELECT * FROM productosxfactura WHERE folio = %s;""", (id,))
+    return cursor.fetchall()
 
 def getAllProductos(cursor):
     cursor.execute("""SELECT * FROM productos;""")
     return cursor.fetchall()
 
 def getProductoById(cursor, id):
-    cursor.execute("""SELECT * FROM productos WHERE productos id_producto = %s;""", (id,))
+    cursor.execute("""SELECT * FROM productos WHERE id_producto = %s;""", (id,))
     return cursor.fetchall()
 
 def getProductoByNombre(cursor, nombre):
-    cursor.execute("""SELECT * FROM productos WHERE productos nombre = %s;""", (nombre,))
+    cursor.execute("""SELECT * FROM productos WHERE nombre = %s;""", (nombre,))
     return cursor.fetchall()
 
 def updateProducto(cursor, id, nombre, descripcion, costo_neto):
