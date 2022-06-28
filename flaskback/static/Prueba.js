@@ -12,7 +12,7 @@ $(document).ready ( function () {
     });
     $(".delete").click(function (){
         $("#deleteProductModal").modal( "show");
-        $("#delete_id").val($(this).closest('tr').children()[1].textContent);
+        $("#delete_id").val($(this).closest('tr').children()[0].textContent);
     });
     
 });
