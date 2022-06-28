@@ -281,12 +281,6 @@ form .invoice-details .input-box{
 	align-items: center;
 }
 
-.modal-footer{
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-}
 
 .btn{
 	color: #fff;
@@ -319,3 +313,9 @@ form .invoice-details .input-box{
 .btn-danger:hover{
     background-color: #b23e3d;
 }
+
+
+a:link, a:visited {
+	color: white;
+	text-decoration: none;
+  }

@@ -124,12 +124,8 @@ h1{
 }
 
 .btn-success{
-    background-color: #1CAC78;
-    color: #fff;
     padding: 10px;
-    border: 1px solid #1CAC78;
     border-radius: 5px;
-    font-size: 16px;
     cursor: pointer;
 }
 
@@ -326,9 +322,3 @@ h1{
 	align-items: center;
 }
 
-.modal-footer{
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-}

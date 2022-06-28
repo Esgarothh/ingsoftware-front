@@ -34,11 +34,12 @@
 					<td>{{ lista_facturas[i][2] }}</td> <!-- Descripción-->
                     <td>{{ lista_facturas[i][4] }}</td> <!-- Monto-->
                     <td>
-                        <div id="datotexto" value="{{texto}}">...</div>
+                        <div id="datotexto" value="{{texto}}"></div>
                         <a href=/testing?={{ lista_facturas[i][0] }}><button type="button"  class="btn btn-primary">
-                            <i class="fas fa-eye"> Ver</i>
-                            </a>
-                        </button>
+                            <i class="fas fa-eye">Ver</i>
+                            </button>
+                        </a>
+                        
                     </td>
 					<td>{{ lista_facturas[i][3] }}</td> <!-- fecha-->
 				</tr>
