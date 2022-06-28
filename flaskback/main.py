@@ -68,13 +68,15 @@ def facturas():
 @app.route("/crear_factura", methods=["GET", "POST"])
 def crear_factura():
     if request.method == "POST":
+        productos_factura = request.form.get("productos_final").split(",")
+        if productos_factura[0] == "":
+            return redirect(request.referrer)
         folio = request.form.get("folio")
         fecha_emision = datetime.today().strftime('%Y-%m-%d')
         descripcion = request.form.get("descripcion_factura")
         rut_cliente = request.form.get("rut_cliente")
         nombre_cliente = request.form.get("nombre_cliente")
         giro = request.form.get("giro")
-        productos_factura = request.form.get("productos_final").split(",")
         monto_neto = 0
         for i in range(int(len(productos_factura)/3)):
             producto_nuevo = []
@@ -100,17 +102,18 @@ def cotizaciones():
     id_cotizacion = getLastIdCotizacion(cursor)
     return render_template("cotizaciones.html",productos=productos,maximo=maximo,id_cotizacion=id_cotizacion[0][0]+1,fecha=fecha)
 
-
 @app.route("/crear_cotizacion", methods=["GET", "POST"])
 def crear_cotizacion():
     if request.method == "POST":
+        productos_cotizacion = request.form.get("productos_final").split(",")
+        if productos_cotizacion == "":
+            return redirect(request.referrer)
         id_cotizacion = request.form.get("id_cotizacion")
         fecha_emision = datetime.today().strftime('%Y-%m-%d')
         descripcion = request.form.get("descripcion_cotizacion")
         rut_cliente = request.form.get("rut_cliente")
         nombre_cliente = request.form.get("nombre_cliente")
         giro = request.form.get("giro")
-        productos_cotizacion = request.form.get("productos_final").split(",")
         monto_neto = 0
         for i in range(int(len(productos_cotizacion)/3)):
             producto_nuevo = []
@@ -125,6 +128,16 @@ def crear_cotizacion():
         createCliente(cursor, rut_cliente, nombre_cliente, giro)
         createCotizacion(cursor, descripcion, rut_cliente, fecha_emision, monto_neto)
         return redirect("/vercotizaciones")
+
+@app.route("/delete_cotizacion", methods=["GET", "POST"])
+def delete_cotizacion():
+    if request.method == "POST":
+        id = request.form.get("delete_id")
+        print(id)
+        deleteCotizacion(cursor, id)
+        return redirect("/verproductos")
+
+
 
 
 @app.route("/productos")
@@ -183,13 +196,25 @@ def editar_producto():
 @app.route("/welcome", methods=["GET"])
 @app.route("/testing")
 def testing():
-    args = request.args
+    folio = request.args.get('folio')
+    print(folio)
+    data = getFacturasByFolio(cursor, folio)
+    print(data)
+    productos = getProductosByFolioFactura(cursor,folio)
+    print(productos)
+    primer = productos[0]   
+    idprod = primer[0]
+    print(idprod)
+    prod = getProductoById(cursor,idprod)[0]
+    
+    print(prod)
+    data = data[0]
     test = {}
-    test["folio"] = "12345"
-    test["cliente"] = "12345678-k"
-    test["producto"] = "lavadora"
-    test["precio"] = 100
-    test["descripcion"] = "descripcion de prueba de producto lavadora"
+    test["folio"] = data[0]        # folio 0 idcliente 1 descripcion 2 fechaemi 3 montoneto 4
+    test["cliente"] = data[1]       # 0 folio 1 idproducto 2 cantidad 3 monto   
+    test["producto"] = prod[1]        # id nombre descripcion costo
+    test["precio"] = primer[3]
+    test["descripcion"] = prod[2]
     test["cantidad"] = 1
     test["n_productos"] = 1
     test = json.dumps(test)

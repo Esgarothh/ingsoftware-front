@@ -68,23 +68,27 @@ def deleteCotizacion(cursor, id):
 # FUNCIONES PROUDCTOS
 
 def createProducto(cursor, nombre, descripcion, costo_neto):
-    cursor.execute("""INSERT INTO productos(nombre, descripcion, costo_neto) VALUES (%s, %s, %s);""", (nombre, descripcion, costo_neto))
+    cursor.execute("""INSERT INTO productos(nombre, descripcion, costo_neto, estado) VALUES (%s, %s, %s, 'Activado');""", (nombre, descripcion, costo_neto))
 
 def getProductos(cursor, hoja):
     limite = (hoja * 10)
-    cursor.execute("""SELECT * FROM productos LIMIT 10 OFFSET %s;""", (limite,))
+    cursor.execute("""SELECT * FROM productos where estado = 'Activado' LIMIT 10 OFFSET %s;""", (limite,))
+    return cursor.fetchall()
+
+def getProductosByFolioFactura(cursor, id):
+    cursor.execute("""SELECT * FROM productosxfactura WHERE folio = %s;""", (id,))
     return cursor.fetchall()
 
 def getAllProductos(cursor):
-    cursor.execute("""SELECT * FROM productos;""")
+    cursor.execute("""SELECT * FROM productos where estado = 'Activado';""")
     return cursor.fetchall()
 
 def getProductoById(cursor, id):
-    cursor.execute("""SELECT * FROM productos WHERE productos id_producto = %s;""", (id,))
+    cursor.execute("""SELECT * FROM productos WHERE id_producto = %s;""", (id,))
     return cursor.fetchall()
 
 def getProductoByNombre(cursor, nombre):
-    cursor.execute("""SELECT * FROM productos WHERE productos nombre = %s;""", (nombre,))
+    cursor.execute("""SELECT * FROM productos WHERE nombre = %s;""", (nombre,))
     return cursor.fetchall()
 
 def updateProducto(cursor, id, nombre, descripcion, costo_neto):
@@ -100,7 +104,7 @@ def updateDescripcionProducto(cursor, id, descripcion):
     cursor.execute("""UPDATE productos SET descripcion = %s WHERE id_producto = %s;""", (descripcion, id,))
 
 def deleteProducto(cursor, id):
-    cursor.execute("""DELETE FROM productos WHERE id_producto = %s;""", (id,))
+    cursor.execute("""UPDATE productos SET estado='Desactivado' WHERE id_producto = %s;""", (id,))
  
 #FUNCIONES CLIENTES
 
