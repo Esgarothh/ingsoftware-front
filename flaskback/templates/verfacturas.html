@@ -28,21 +28,21 @@
         </thead>
         <tbody>
             {% for i in range(0,maximo,1) %}
-            <tr>
-                <td>{{ lista_facturas[i][0] }}</td> <!-- Folio-->
-                <td>{{ clientes[i] }}</td> <!-- ID cliente-->
-                <td>{{ lista_facturas[i][2] }}</td> <!-- Descripción-->
-                <td>{{ lista_facturas[i][4] }}</td> <!-- Monto-->
-                <td>
-                    <div id="datotexto" value="{{texto}}"></div>
-                    <a href=/testing?folio={{ lista_facturas[i][0] }}><button type="button" class="btn btn-primary">
-                            <i class="fas fa-eye"> VER</i>
-                    </a>
-                    </button>
-                </td>
-                <td>{{ lista_facturas[i][3] }}</td> <!-- fecha-->
-            </tr>
-            {% endfor %}
+				<tr>
+					<td>{{ lista_facturas[i][0] }}</td> <!-- Folio-->
+					<td>{{ clientes[i] }}</td> <!-- ID cliente-->
+					<td>{{ lista_facturas[i][2] }}</td> <!-- Descripción-->
+                    <td>{{ lista_facturas[i][4] }}</td> <!-- Monto-->
+                    <td>
+                        <div id="datotexto" value="{{texto}}"></div>
+                        <a href=/testing?folio={{ lista_facturas[i][0] }}><button type="button"  class="btn btn-primary">
+                            <i class="fas fa-eye"> Ver</i>
+                            </a>
+                        </button>
+                    </td>
+					<td>{{ lista_facturas[i][3] }}</td> <!-- fecha-->
+				</tr>
+			{% endfor %}
         </tbody>
     </table>
 </div>

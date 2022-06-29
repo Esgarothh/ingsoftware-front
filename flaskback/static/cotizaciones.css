@@ -228,24 +228,27 @@ form .invoice-details .input-box{
 	margin-bottom: 2rem;
 }
 
+.modal-title{
+	font-size: 1.5rem;
+	font-weight: 500;
+	color: #1CAC78;
+	text-align: center;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
+
 
 .close{
 	width: 30px;
 	background-color: #1CAC78;
 	border-radius: 10%;
-	border: 1px solid #ccc;
-	display: flex;
 	justify-content: center;
-	align-items: center;
 	cursor: pointer;
-}
-
-.close span{
-	font-size: 30px;
-	font-weight: bold;
 	color: #fff;
-	text-decoration: none;
-	text-transform: uppercase;
+	font-size: 1.5rem;
+	padding: 5px;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
 }
 
 .modal-body{
@@ -254,6 +257,84 @@ form .invoice-details .input-box{
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 30px;
+}
+
+.modal-body input{
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	outline: none;
+	font-size: 16px;
+}
+
+.modal-body textarea{
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	outline: none;
+	font-size: 16px;
+}
+
+.modal-body select{
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	outline: none;
+	font-size: 16px;
+}
+
+
+.delete-footer{
+	margin: auto;
+	display: block;
+	width: 100%;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	margin-left: 55px;
+	margin-right: 55px;
+}
+
+.modal-footer .btn{
+	color: #fff;
+	background-color: #006a4e;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: bold;
+	letter-spacing: 2px;
+	padding: 10px 20px;
+	border-radius: 5px;
+	transition: 0.3s;
+	transition-property: background-color;
+}
+
+.modal-footer .btn:hover{
+	background-color: #1b4d3e;
+}
+
+.modal-footer .btn-success{
+	background-color: #006a4e;
+}
+
+.modal-footer .btn-success:hover{
+	background-color: #1b4d3e;
+}
+
+.modal-footer .btn-danger{
+	background-color: #FF5252;
+	border: 1.5px solid #000000;
+	margin-left: 0px;
+}
+
+.modal-footer .btn-danger:hover{
+	background-color: #b23e3d;
+}
+
+.modal-footer .btn-danger span{
+	color: #fff;
+	text-decoration: none;
 }
 
 .form-group{
@@ -281,12 +362,6 @@ form .invoice-details .input-box{
 	align-items: center;
 }
 
-.modal-footer{
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-}
 
 .btn{
 	color: #fff;
@@ -361,3 +436,8 @@ form .invoice-details .input-box{
     display: flex;
     justify-content: space-between;
 }
+
+a:link, a:visited {
+	color: white;
+	text-decoration: none;
+  }
