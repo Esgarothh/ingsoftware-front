@@ -38,7 +38,8 @@ app = Flask(__name__)  # Initialze flask constructor
 app.secret_key = "super secret key2"
 
 # Initialze person as dictionary
-person = {"is_logged_in": False, "name": "", "email": "", "uid": "", "estadoCompra": ""}
+person = {"is_logged_in": False, "name": "",
+          "email": "", "uid": "", "estadoCompra": ""}
 
 # Login
 
@@ -86,7 +87,8 @@ def crear_factura():
         for i in range(int(len(productos_factura) / 3)):
             producto_nuevo = []
             for j in range(3):
-                productos_factura[i * 3 + j] = int(productos_factura[i * 3 + j])
+                productos_factura[i * 3 +
+                                  j] = int(productos_factura[i * 3 + j])
                 producto_nuevo.append(productos_factura[i * 3 + j])
                 if j + 1 % 3 == 3:
                     print(int(productos_factura[i * 3 + j]))
@@ -104,7 +106,8 @@ def crear_factura():
             productos_factura,
         )
         createCliente(cursor, rut_cliente, nombre_cliente, giro)
-        CreateFactura(cursor, rut_cliente, descripcion, fecha_emision, monto_neto)
+        CreateFactura(cursor, rut_cliente, descripcion,
+                      fecha_emision, monto_neto)
         return redirect("/verfacturas")
 
 
@@ -140,7 +143,8 @@ def crear_cotizacion():
         for i in range(int(len(productos_cotizacion) / 3)):
             producto_nuevo = []
             for j in range(3):
-                productos_cotizacion[i * 3 + j] = int(productos_cotizacion[i * 3 + j])
+                productos_cotizacion[i * 3 +
+                                     j] = int(productos_cotizacion[i * 3 + j])
                 producto_nuevo.append(productos_cotizacion[i * 3 + j])
                 if j + 1 % 3 == 3:
                     print(int(productos_cotizacion[i * 3 + j]))
@@ -162,7 +166,8 @@ def crear_cotizacion():
             productos_cotizacion,
         )
         createCliente(cursor, rut_cliente, nombre_cliente, giro)
-        createCotizacion(cursor, descripcion, rut_cliente, fecha_emision, monto_neto)
+        createCotizacion(cursor, descripcion, rut_cliente,
+                         fecha_emision, monto_neto)
         return redirect("/vercotizaciones")
 
 
@@ -217,24 +222,26 @@ def editar_producto():
     updateProducto(cursor, id, nombre, descripcion, precio)
     return redirect("/verproductos")
 
+
 @app.route("/welcome", methods=["GET"])
 @app.route("/testing")
 def testing():
     folio = request.args.get('folio')
     print(folio)
     data = getFacturasByFolio(cursor, folio)
-    productos = getProductosByFolioFactura(cursor,folio)
+    productos = getProductosByFolioFactura(cursor, folio)
     print(productos)
-    primer = productos[0]   
+    primer = productos[0]
     idprod = primer[0]
     print(idprod)
-    prod = getProductoById(cursor,idprod)[0]
-    
+    prod = getProductoById(cursor, idprod)[0]
+
     print(prod)
     data = data[0]
     test = {}
-    test["folio"] = data[0]        # folio 0 idcliente 1 descripcion 2 fechaemi 3 montoneto 4
-    test["cliente"] = data[1]       # 0 folio 1 idproducto 2 cantidad 3 monto   
+    # folio 0 idcliente 1 descripcion 2 fechaemi 3 montoneto 4
+    test["folio"] = data[0]
+    test["cliente"] = data[1]       # 0 folio 1 idproducto 2 cantidad 3 monto
     test["producto"] = prod[1]        # id nombre descripcion costo
     test["precio"] = primer[3]
     test["descripcion"] = prod[2]
@@ -269,11 +276,29 @@ def crear_producto():
 @app.route("/result", methods=["POST", "GET"])
 def result():
     if request.method == "POST":  # Only if data has been posted
+        result = request.form  # Get the data
+        email = result["email"]
+        password = result["pass"]
+        try:
+            # Try signing in the user with the given information
+            if email == "pizarras@gmail.com" and password == "123456":
+                # Insert the user data in the global person
+                global person
+                person["is_logged_in"] = True
+            # Redirect to welcome page
+                return redirect(url_for('welcome'))
+            else:
+                return redirect(url_for('login'))
 
-        if True:
-            return redirect("/welcome")
+        except Exception as e:
+            print(e)
+            # If there is any error, redirect back to login
+
+    else:
+        if person["is_logged_in"] == True:
+            return redirect(url_for('welcome'))
         else:
-            return redirect(url_for("login"))
+            return redirect(url_for('login'))
 
 
 # If someone clicks on register, they are redirected to /register
